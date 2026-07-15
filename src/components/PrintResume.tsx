@@ -66,39 +66,39 @@ export default function PrintResume({ onClose }: PrintResumeProps) {
 
       {/* Header Section */}
       <header className="border-b-4 border-blue-900 pb-6 mb-6">
-        <div className="flex flex-col md:flex-row justify-between items-start gap-4">
+        <div className="flex flex-col md:flex-row print:flex-row justify-between items-start gap-4">
           <div>
             <h1 className="text-3xl font-extrabold text-blue-900 tracking-tight">{PERSONAL_INFO.fullName}</h1>
             <h2 className="text-lg font-semibold text-blue-900 mt-1">{PERSONAL_INFO.title}</h2>
             <p className="text-xs text-slate-500 mt-2 max-w-xl font-medium">{PERSONAL_INFO.objective}</p>
           </div>
           
-          <div className="flex flex-col gap-1.5 text-xs text-slate-600 font-medium md:items-end w-full md:w-auto">
+          <div className="flex flex-col gap-1.5 text-xs text-slate-600 font-medium md:items-end print:items-end w-full md:w-auto print:w-auto">
             <div className="flex items-center gap-2">
               <span>{PERSONAL_INFO.city}</span>
-              <MapPin size={14} className="text-blue-900 hidden md:inline" />
+              <MapPin size={14} className="text-blue-900 hidden md:inline print:inline" />
             </div>
             <div className="flex items-center gap-2">
               <span>{PERSONAL_INFO.phone}</span>
-              <Phone size={14} className="text-blue-900 hidden md:inline" />
+              <Phone size={14} className="text-blue-900 hidden md:inline print:inline" />
             </div>
             <div className="flex items-center gap-2">
               <a href={`mailto:${PERSONAL_INFO.email}`} className="hover:underline">{PERSONAL_INFO.email}</a>
-              <Mail size={14} className="text-blue-900 hidden md:inline" />
+              <Mail size={14} className="text-blue-900 hidden md:inline print:inline" />
             </div>
             <div className="flex items-center gap-2">
               <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noreferrer" className="hover:underline">linkedin.com/in/ana-carolina</a>
-              <Linkedin size={14} className="text-blue-900 hidden md:inline" />
+              <Linkedin size={14} className="text-blue-900 hidden md:inline print:inline" />
             </div>
           </div>
         </div>
       </header>
 
       {/* Main Content Layout - Two Columns */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 print:grid-cols-3 gap-6 md:gap-8 print:gap-8">
         
         {/* Left Column (1/3): Skills, Info & Education */}
-        <div className="md:col-span-1 flex flex-col gap-6">
+        <div className="md:col-span-1 print:col-span-1 flex flex-col gap-6">
           
           {/* About Me (Resumo) */}
           <section>
@@ -160,7 +160,7 @@ export default function PrintResume({ onClose }: PrintResumeProps) {
         </div>
 
         {/* Right Column (2/3): Experience & Courses */}
-        <div className="md:col-span-2 flex flex-col gap-6">
+        <div className="md:col-span-2 print:col-span-2 flex flex-col gap-6">
           
           {/* Experiences */}
           <section>
@@ -197,7 +197,7 @@ export default function PrintResume({ onClose }: PrintResumeProps) {
               <Award size={15} />
               Cursos e Qualificações
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 gap-4 print:gap-4">
               {COURSES_LIST.map((course) => (
                 <div key={course.id} className="text-xs bg-slate-50 p-2.5 rounded border border-slate-100 print:bg-white print:border-none print:p-0">
                   <h4 className="font-bold text-slate-900">{course.name}</h4>
