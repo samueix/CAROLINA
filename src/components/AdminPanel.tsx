@@ -157,7 +157,7 @@ export default function AdminPanel({ isOpen, onClose, onOpenResume }: AdminPanel
     if (!isAiLoading) return;
     const messages = [
       "Analisando sua experiência na Solistica... 📦",
-      "Valorizando suas competências como Lash Designer... 🌸",
+      "Valorizando suas competências como Lash Designer... ✨",
       "Cruzando seus cursos de Assistente Administrativo e Informática... 💻",
       "Formatando a melhor estratégia de abordagem... ✨",
       "Quase pronto! Gerando conselhos personalizados de RH... 📊"
@@ -241,7 +241,7 @@ Telefone: (85) 98597-6871 | carolcilios01@gmail.com`
     },
     {
       id: 'let-3',
-      title: '🌸 Atendimento ao Cliente / Clínicas de Estética & Beleza',
+      title: 'Atendimento ao Cliente / Clínicas de Estética & Beleza',
       description: 'Excelente para recepção em consultórios estéticos, recepção de salões e estúdios de beleza. Valoriza muito o seu lado empreendedor e autônomo na área de Lash Designer.',
       text: `Olá!
 
