@@ -14,13 +14,13 @@ export const PERSONAL_INFO = {
   phone: "(85) 98597-6871",
   email: "carolcilios01@gmail.com",
   linkedin: "https://www.linkedin.com/in/ana-carolina-62b34b352/",
-  whatsappUrl: "https://wa.me/5585985976871?text=Olá%20Ana%20Carolina%2C%20vi%20seu%20portfólio%20profissional%20e%20gostaria%20de%20conversar!",
-  // Foto enviada: coloque carolfoto.jpg na pasta /public
+  whatsappUrl: "https://wa.me/5585985976871?text=Ol%C3%A1%20Ana%20Carolina%2C%20vi%20seu%20portf%C3%B3lio%20profissional%20e%20gostaria%20de%20conversar!",
+  // SUA FOTO ENVIADA: carolfoto.jpg NA PASTA /public/images/
   // Se a sua foto for quadrada, o portfólio irá deixá-la perfeitamente redonda de forma automática!
-  photoUrl: "/carolfoto.jpg",
-  backupPhotoUrl: "/carolfoto.jpg",
-  about: "Profissional com experiência em atendimento ao cliente, recepção e suporte administrativo. Atuou em ambiente corporativo desenvolvendo atividades administrativas, financeiras e de atendimento com excelência, dedicação e comprometimento total.",
-  objective: "Atuar nas áreas de Recepção, Assistente Administrativo, Auxiliar Administrativo, Atendimento ao Cliente ou áreas correlatas, contribuindo com organização, eficiência e qualidade nas rotinas administrativas e no relacionamento estratégico com clientes e fornecedores.",
+  photoUrl: "/images/carolfoto.jpg", 
+  backupPhotoUrl: "/images/carolfoto.jpg", // Foto principal como backup também
+  about: "Profissional com experiência em atendimento ao cliente, recepção e suporte administrativo. Atuou em ambiente corporativo desenvolvendo atividades administrativas, financeiras e de atendimento, sempre prezando pela organização, comunicação e qualidade no atendimento.\n\nTambém atua como profissional autônoma na área da beleza, realizando serviços de design de sobrancelhas e alongamento de cílios, desenvolvendo competências em relacionamento com clientes, organização de agenda e gestão do próprio negócio.\n\nBusca novos desafios para continuar evoluindo profissionalmente e contribuir para o crescimento da empresa.",
+  objective: "Atuar nas áreas de Recepção, Assistente Administrativo, Auxiliar Administrativo, Atendimento ao Cliente ou áreas correlatas, contribuindo com organização, eficiência e qualidade nos processos administrativos e no atendimento ao público.",
   additionalInfo: [
     "Disponibilidade para novos desafios",
     "Disponibilidade de horário",

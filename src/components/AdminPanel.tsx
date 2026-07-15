@@ -284,7 +284,7 @@ Telefone: (85) 98597-6871 | carolcilios01@gmail.com`
             🔑
           </div>
           <span className="text-[10px] font-bold text-blue-300 uppercase tracking-widest block">Área Restrita</span>
-          <h2 className="text-lg font-bold font-display mt-1">Acesso para Carol 🌸</h2>
+          <h2 className="text-lg font-bold font-display mt-1">Acesso para Carol</h2>
           <p className="text-[11px] text-slate-400 mt-1.5 max-w-xs mx-auto">
             Este painel é confidencial. Por favor, digite sua senha de acesso exclusiva para gerenciar suas vagas.
           </p>
@@ -356,7 +356,7 @@ Telefone: (85) 98597-6871 | carolcilios01@gmail.com`
                   </button>
                 </div>
                 <h1 className="text-xl font-bold font-display flex items-center gap-2">
-                  Painel Administrativo da Carol <span className="animate-bounce">🌸</span>
+                  Painel Administrativo da Carol
                 </h1>
               </div>
             </div>
