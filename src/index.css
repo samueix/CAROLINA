@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Poppins", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Poppins", "Inter", sans-serif;
+}
+
+@layer utilities {
+  /* Scroll behavior smooth */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Printing Specific Utility Styles to guarantee pristine vector-quality A4 PDF prints */
+@media print {
+  /* Absolutely hide all browser scrollbars, main page sections, and overlays */
+  body, html {
+    background: white !important;
+    color: #1e293b !important;
+    font-size: 11px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide the portfolio container completely to prevent spilling empty pages */
+  #root > .portfolio-container, .portfolio-container {
+    display: none !important;
+  }
+
+  /* Force display of the pure printable container */
+  .print-only-container {
+    display: block !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Ensure page breaks do not rupture headings or cards awkwardly */
+  h1, h2, h3, h4, header, footer, section {
+    page-break-inside: avoid;
+  }
+
+  ul, li, p {
+    page-break-inside: avoid;
+  }
+}
