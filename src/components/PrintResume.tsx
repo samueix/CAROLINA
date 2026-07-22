@@ -87,7 +87,7 @@ export default function PrintResume({ onClose }: PrintResumeProps) {
               <Mail size={14} className="text-blue-900 hidden md:inline print:inline" />
             </div>
             <div className="flex items-center gap-2">
-              <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noreferrer" className="hover:underline">linkedin.com/in/ana-carolina</a>
+              <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noreferrer" className="hover:underline">linkedin.com/in/carolferreiraofc</a>
               <Linkedin size={14} className="text-blue-900 hidden md:inline print:inline" />
             </div>
           </div>

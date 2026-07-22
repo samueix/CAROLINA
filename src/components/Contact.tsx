@@ -66,7 +66,7 @@ export default function Contact() {
                 rel="noreferrer" 
                 className="text-base font-bold text-slate-800 hover:text-blue-900 transition truncate block"
               >
-                ana-carolina-62b34b352
+                carolferreiraofc
               </a>
             </div>
           </div>

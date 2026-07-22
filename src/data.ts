@@ -13,7 +13,7 @@ export const PERSONAL_INFO = {
   city: "Fortaleza - Ceará",
   phone: "(85) 98597-6871",
   email: "carolcilios01@gmail.com",
-  linkedin: "https://www.linkedin.com/in/ana-carolina-62b34b352/",
+  linkedin: "https://www.linkedin.com/in/carolferreiraofc/",
   whatsappUrl: "https://wa.me/5585985976871?text=Ol%C3%A1%20Ana%20Carolina%2C%20vi%20seu%20portf%C3%B3lio%20profissional%20e%20gostaria%20de%20conversar!",
   // SUA FOTO ENVIADA: carolfoto.jpg NA PASTA /src/assets/images/
   // Se a sua foto for quadrada, o portfólio irá deixá-la perfeitamente redonda de forma automática!
