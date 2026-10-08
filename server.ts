@@ -49,56 +49,60 @@ async function startServer() {
             "Comente sobre a fidelização de clientes na sua carreira autônoma de beleza para mostrar excelente relacionamento interpessoal.",
             "Frise sua agilidade em aprender novos sistemas de CRM e planilhas digitais."
           ],
-          customIntro: `Olá! Sou Ana Carolina Ferreira da Costa, profissional com forte experiência em recepção, suporte administrativo e atendimento ao cliente. Ao longo da minha trajetória na Solistica e como empreendedora autônoma na área da beleza, desenvolvi habilidades sólidas de organização, gestão de agenda, notas fiscais e relacionamento de alto padrão. Gostaria de conversar para entender como posso somar à sua equipe com simpatia, eficiência e organização.`
+          customIntro: `Olá! Sou Carolina Ferreira, profissional com forte experiência em recepção, suporte administrativo e atendimento ao cliente. Ao longo da minha trajetória na Solistica e como empreendedora autônoma na área da beleza, desenvolvi habilidades sólidas de organização, gestão de agenda, notas fiscais e relacionamento de alto padrão. Gostaria de conversar para entender como posso somar à sua equipe com simpatia, eficiência e organização.`
         });
       }
 
       const cvContext = `
-Nome Completo: Ana Carolina Ferreira da Costa
-Cargo Desejado: Recepcionista, Assistente Administrativo, Atendimento ao Cliente, Auxiliar Administrativo
-Localização: Fortaleza - Ceará
+Nome Completo: Ana Carolina Ferreira da Costa (Carolina Ferreira)
+Cargo Desejado: Recepcionista Corporativa, Assistente Administrativo, Atendimento ao Cliente de Alta Performance, Recepção de Clínicas
+Localização: Fortaleza e Região Metropolitana - CE
+Portfólio Web: https://carolina-ferreira.vercel.app/
 
 Sobre:
-Profissional com experiência em atendimento ao cliente, recepção e suporte administrativo. Atuou em ambiente corporativo desenvolvendo atividades administrativas, financeiras e de atendimento, sempre prezando pela organização, comunicação e qualidade no atendimento.
-Também atua como profissional autônoma na área da beleza, realizando serviços de design de sobrancelhas e alongamento de cílios, desenvolvendo competências em relacionamento com clientes, organização de agenda e gestão do próprio negócio.
+Profissional dedicada com sólida experiência em recepção corporativa, rotinas administrativas, suporte financeiro e excelência no atendimento ao cliente. Possui vivência no ambiente corporativo da Solistica (recepção de visitantes, conferência e lançamento de notas fiscais, controle de fluxo de caixa, emissão de recibos e gestão documental). Atua também como empreendedora autônoma na área de estética e beleza facial (design de sobrancelhas e lash designer), aprimorando competências de autogestão, atendimento humanizado, fidelização, negociação via WhatsApp e organização criteriosa de agendas.
 
 Experiência 1:
 Empresa: Solistica (Maio de 2024 até Fevereiro de 2025)
 Cargo: Recepcionista Administrativa
 Atividades:
-- Atendimento presencial, telefônico e por e-mail
-- Recepção de visitantes e atendimento ao cliente com foco em satisfação
-- Cadastro e atualização de informações em CRM
-- Organização, controle e arquivamento de documentos administrativos e logísticos
-- Apoio integral às rotinas administrativas e financeiras
-- Emissão, lançamento e conferência de notas fiscais
-- Recebimento de pagamentos e emissão de recibos
-- Recebimento e conferência de cargas em suporte operacional
+- Recepção presencial e acolhimento cordial de clientes, visitantes e fornecedores
+- Atendimento telefônico via central PABX, triagem de chamadas e recados
+- Gerenciamento de correspondências, malotes e circulação de documentos
+- Cadastro e atualização contínua de clientes no sistema de CRM
+- Emissão, lançamento e conferência minuciosa de Notas Fiscais (NF-e/Danfe) e romaneios
+- Apoio ao departamento financeiro: recebimento de valores, emissão de recibos e conciliação
+- Controle e arquivo físico e digital de prontuários, contratos e relatórios
+- Suporte à equipe de expedição e logística na conferência física e documental de cargas
+- Redação de comunicados e e-mails corporativos, agendamento de reuniões
 
 Experiência 2:
-Empresa: Profissional Autônoma (Março de 2025 até Atualmente)
-Cargo: Designer de Sobrancelhas e Lash Designer (Autônoma)
+Empresa: Profissional Autônoma / Empreendedora (Março de 2025 até Atualmente)
+Cargo: Designer de Sobrancelhas e Lash Designer
 Atividades:
-- Atendimento personalizado de alta qualidade focado em estética facial
-- Realização de serviços de design de sobrancelhas e cílios
-- Gestão autônoma de agenda e agendamentos estratégicos
-- Atendimento via WhatsApp e redes sociais comerciais
-- Organização de materiais, controle de estoque e fornecedores
-- Relacionamento interpessoal e estratégias de fidelização
+- Gestão autônoma de negócio de estética facial, atendimento comercial e pós-venda
+- Prestação de serviços especializados com mapeamento facial e extensão de cílios
+- Gestão estratégica de agenda de atendimentos e confirmações antecipadas
+- Atendimento consultivo humanizado focado em fidelização e indicações
+- Atendimento e negociação via WhatsApp Business e redes sociais
+- Gestão financeira: fluxo de caixa diário, controle de despesas e recebimentos
+- Controle criterioso de estoque de insumos e normas de biossegurança
 
 Cursos:
-1. Assistente Administrativo (IEP) - Rotinas Administrativas, Atendimento, Comunicação, Notas Fiscais, Financeiro, Pacote Office.
-2. Informática Básica (IEP) - Word, Excel Básico, PowerPoint, Outlook, Google Docs & Planilhas, Digitação.
+1. Assistente Administrativo Completo (IEP - 160h) - Rotinas Administrativas, Atendimento de Excelência, Redação Oficial, Arquivos, Noções Financeiras, Notas Fiscais, DP/RH, Ética, PABX, Agendas.
+2. Informática Corporativa & Pacote Office (IEP - 120h) - Word, Excel (Planilhas e Fórmulas), PowerPoint, Outlook, Google Workspace, Digitação Rápida.
+3. Atendimento ao Cliente & Comunicação Assertiva (60h) - Acolhimento, Escuta Ativa, Resolução de Conflitos, Fidelização.
+4. Organização do Trabalho & Gestão de Tempo (40h) - Metodologia 5S, Priorização e Produtividade.
 `;
 
       const prompt = `
 Você é um especialista em recrutamento e seleção (RH).
-Analise se o perfil da candidata Ana Carolina Ferreira da Costa se qualifica e se destaca para uma vaga no segmento/cargo de "${segment}".
+Analise se o perfil da candidata Carolina Ferreira se qualifica e se destaca para uma vaga no segmento/cargo de "${segment}".
 
 Detalhes adicionais da vaga fornecidos pela candidata (opcional):
 "${description || 'Não fornecido'}"
 
-Com base no currículo da Ana Carolina:
+Com base no currículo da Carolina Ferreira:
 ${cvContext}
 
 Por favor, faça uma análise detalhada e retorne um objeto JSON contendo:
@@ -112,7 +116,7 @@ Responda em português brasileiro.
 `;
 
       const response = await ai.models.generateContent({
-        model: "gemini-3.5-flash",
+        model: "gemini-2.5-flash",
         contents: prompt,
         config: {
           responseMimeType: "application/json",

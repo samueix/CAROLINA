@@ -19,11 +19,19 @@ export interface Course {
   id: string;
   name: string;
   institution: string;
+  workload?: string;
   syllabus: string[];
 }
 
 export interface Skill {
   name: string;
   level: number; // 1-100 percentage for the illustrative bar
-  category: 'administrative' | 'financial' | 'client-relations' | 'personal';
+  category: 'administrative' | 'financial' | 'client-relations' | 'digital' | 'personal';
+}
+
+export interface ResumeConfig {
+  showPhoto: boolean;
+  photoShape?: 'circle' | 'rounded'; // 'circle' (redonda executiva) ou 'rounded' (retangular suave)
+  showQrCode: boolean;
+  showPortfolioLink: boolean;
 }
