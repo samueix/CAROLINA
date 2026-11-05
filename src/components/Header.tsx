@@ -30,8 +30,9 @@ export default function Header({ onOpenResume }: HeaderProps) {
     }
   };
 
-  // Gatilho invisível: 5 toques/cliques rápidos (menos de 3 segundos) no monograma CF
-  const handleMonogramClick = () => {
+  // Gatilho invisível no próprio nome: 5 cliques rápidos (< 3s) disparam 'open_admin_secret'
+  const handleNameClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
     const now = Date.now();
     const timestamps = clickTimestampsRef.current.filter((t) => now - t < 3000);
     timestamps.push(now);
@@ -41,6 +42,12 @@ export default function Header({ onOpenResume }: HeaderProps) {
       clickTimestampsRef.current = [];
       window.dispatchEvent(new CustomEvent('open_admin_secret'));
     }
+
+    // Mantém a rolagem suave para #inicio
+    const target = document.querySelector('#inicio');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -49,19 +56,13 @@ export default function Header({ onOpenResume }: HeaderProps) {
       className="sticky top-0 z-40 bg-[#FBF7F2] border-b border-[#E7DFD6] py-3.5 print:hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        {/* Monograma CF (puramente visual, sem cursor de ponteiro) + Nome */}
-        <div className="flex items-center gap-3">
-          <div 
-            onClick={handleMonogramClick}
-            className="w-9 h-9 rounded-[12px] bg-[#881337] flex items-center justify-center text-white font-bold text-sm tracking-wide select-none"
-            aria-hidden="true"
-          >
-            CF
-          </div>
+        {/* Nome como link para #inicio em Bricolage, sem ícone nem monograma */}
+        <div className="flex items-center">
           <a 
             href="#inicio" 
-            onClick={(e) => handleNavClick(e, '#inicio')}
-            className="font-display font-bold text-[#1C1917] text-lg tracking-tight hover:text-[#881337] transition cursor-pointer"
+            onClick={handleNameClick}
+            className="font-display font-bold text-[#1C1917] text-xl tracking-tight hover:text-[#881337] transition cursor-pointer select-none"
+            title="Ir para o início"
           >
             {personal.displayName}
           </a>

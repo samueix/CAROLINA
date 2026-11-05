@@ -7,7 +7,7 @@
 - **Nome de Exibição:** Carolina Ferreira
 - **Localização:** Fortaleza e Região Metropolitana - CE
 - **Atuação:** Recepção Corporativa, Atendimento ao Cliente, Apoio Administrativo e Financeiro, Gestão de Agendas e Emissão/Conferência de Notas Fiscais.
-- **Site:** https://samuel-victor-da-silva-nobre.vercel.app/
+- **Site:** https://carolina-ferreira.vercel.app/
 
 ## Contato e Redes
 - **E-mail:** carolcilios01@gmail.com

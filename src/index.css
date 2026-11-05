@@ -64,7 +64,7 @@
   }
 }
 
-/* Impressão / PDF */
+/* Impressão / PDF - Layout de 2 Páginas A4 */
 @page {
   size: A4;
   margin: 12mm;
@@ -102,15 +102,25 @@
     background: white !important;
   }
 
-  h1, h2, h3, h4, header, footer, section {
-    page-break-inside: avoid;
-    break-inside: avoid;
-    page-break-after: avoid;
-    break-after: avoid;
+  /* Controle de quebra de página fixo em 2 páginas */
+  .print-page {
+    page-break-after: always !important;
+    break-after: page !important;
   }
 
-  ul, li, p, div {
-    page-break-inside: avoid;
-    break-inside: avoid;
+  .print-page:last-child {
+    page-break-after: auto !important;
+    break-after: auto !important;
+  }
+
+  /* Regras cirúrgicas de quebra para itens pequenos */
+  .print-item-avoid {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .print-title-avoid {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
   }
 }

@@ -4,7 +4,7 @@ import {
   X, Plus, Copy, Check, FileText, Sparkles, Trash2, 
   Building, ShieldCheck, Award, RefreshCw, 
   Camera, QrCode as QrIcon, Globe, Printer, Edit3,
-  ArrowUp, ArrowDown, Download, Upload, RotateCcw, AlertCircle
+  ArrowUp, ArrowDown, Download, Upload, RotateCcw, AlertCircle, Lock
 } from 'lucide-react';
 import { useContent } from '../useContent';
 import { PERSONAL_INFO } from '../data';
@@ -676,9 +676,7 @@ ${personal.portfolioUrl}`
             <X size={16} />
           </button>
           
-          <div className="w-12 h-12 rounded-[12px] bg-[#881337] text-white flex items-center justify-center text-sm font-bold mx-auto mb-3 tracking-wider">
-            CF
-          </div>
+          <Lock size={22} className="text-stone-300 mx-auto mb-3" />
           <span className="text-sm font-bold text-stone-300 uppercase tracking-wider block">Área Reservada</span>
           <h2 className="text-xl font-bold font-display mt-1">Acesso Administrativo</h2>
           <p className="text-sm text-stone-300 mt-2 max-w-xs mx-auto leading-relaxed">
@@ -735,9 +733,7 @@ ${personal.portfolioUrl}`
             </button>
             
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-[12px] bg-[#881337] flex items-center justify-center text-white text-base font-bold">
-                CF
-              </div>
+              <Lock size={20} className="text-stone-300 shrink-0" />
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-bold text-stone-300 uppercase tracking-wider">Área Administrativa</span>

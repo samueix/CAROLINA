@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /?admin=true
 
-Sitemap: https://samuel-victor-da-silva-nobre.vercel.app/sitemap.xml
+Sitemap: https://carolina-ferreira.vercel.app/sitemap.xml

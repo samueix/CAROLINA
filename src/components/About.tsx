@@ -47,6 +47,26 @@ export default function About() {
           </p>
         </div>
 
+        {/* Dedicated Objetivo Profissional Card */}
+        <div className="mb-12 bg-white rounded-[12px] p-6 sm:p-8 border border-[#E7DFD6] transition-all duration-150 hover:-translate-y-1 hover:border-[#1C1917] hover:shadow-[4px_4px_0_#1C1917] motion-reduce:transform-none motion-reduce:shadow-none">
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+            <span className="text-xs font-bold text-[#881337] uppercase tracking-wider">
+              Objetivo Profissional
+            </span>
+            <div className="flex flex-wrap gap-2">
+              <span className="inline-flex items-center text-xs font-semibold px-2.5 py-0.5 rounded-full border border-[#047857] text-[#047857] bg-white">
+                Disponibilidade total de horário
+              </span>
+              <span className="inline-flex items-center text-xs font-semibold px-2.5 py-0.5 rounded-full border border-[#881337] text-[#881337] bg-white">
+                Início imediato
+              </span>
+            </div>
+          </div>
+          <p className="text-base sm:text-lg text-[#1C1917] font-medium leading-relaxed">
+            Busco uma oportunidade nas áreas de Recepção, Atendimento ao Cliente ou Administrativo, contribuindo com organização, responsabilidade, agilidade e comprometimento com os resultados da empresa.
+          </p>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
           {/* Left Block (Text and bio) */}
