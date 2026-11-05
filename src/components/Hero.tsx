@@ -1,16 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
-import { PERSONAL_INFO } from '../data';
-import { Download, Linkedin, Send, MessageSquare, MapPin, CheckCircle, Sparkles } from 'lucide-react';
+import React, { useState } from 'react';
+import { PERSONAL_INFO, EXPERIENCES, COURSES_LIST, SKILLS_LIST } from '../data';
+import { Download, Linkedin, Send, MessageSquare, CheckCircle, MapPin } from 'lucide-react';
 
 interface HeroProps {
   onOpenResume: () => void;
 }
 
 export default function Hero({ onOpenResume }: HeroProps) {
-  const [typedText, setTypedText] = useState('');
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
   const [photoSrc, setPhotoSrc] = useState(PERSONAL_INFO.photoUrl);
 
   const handleImageError = () => {
@@ -20,37 +16,6 @@ export default function Hero({ onOpenResume }: HeroProps) {
     }
   };
 
-  const roles = PERSONAL_INFO.roles;
-  const period = 140; // Typing speed
-  const deletePeriod = 70; // Deleting speed
-  const pauseTime = 1600; // Time before deleting
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    const currentFullText = roles[roleIndex];
-
-    if (!isDeleting) {
-      if (typedText !== currentFullText) {
-        timer = setTimeout(() => {
-          setTypedText(currentFullText.slice(0, typedText.length + 1));
-        }, period);
-      } else {
-        timer = setTimeout(() => setIsDeleting(true), pauseTime);
-      }
-    } else {
-      if (typedText !== '') {
-        timer = setTimeout(() => {
-          setTypedText(currentFullText.slice(0, typedText.length - 1));
-        }, deletePeriod);
-      } else {
-        setIsDeleting(false);
-        setRoleIndex((prev) => (prev + 1) % roles.length);
-      }
-    }
-
-    return () => clearTimeout(timer);
-  }, [typedText, isDeleting, roleIndex, roles]);
-
   const scrollToContact = () => {
     const target = document.querySelector('#contato');
     if (target) {
@@ -58,170 +23,188 @@ export default function Hero({ onOpenResume }: HeroProps) {
     }
   };
 
+  const totalCourseHours = COURSES_LIST.reduce(
+    (acc, c) => acc + (parseInt(c.workload, 10) || 0),
+    0
+  );
+
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex items-center pt-24 pb-16 bg-stone-50 overflow-hidden print:hidden"
+      className="relative pt-28 pb-20 bg-[#FBF7F2] border-b border-[#E7DFD6] print:hidden"
     >
-      {/* Decorative Warm Feminine Blur shapes */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
-        <div className="absolute top-1/4 left-1/10 w-96 h-96 bg-rose-200/50 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/10 w-96 h-96 bg-pink-100/60 rounded-full blur-3xl" />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
           {/* Left Column (Content) */}
-          <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
+          <div className="lg:col-span-7 flex flex-col items-start text-left">
             
-            {/* Tag location */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-rose-50 text-rose-900 rounded-full text-xs font-semibold border border-rose-200/60 mb-6 shadow-sm"
-            >
-              <MapPin size={12} className="text-rose-800" />
-              <span>{PERSONAL_INFO.city}</span>
-            </motion.div>
+            {/* Top row: City tag & Availability seal */}
+            <div className="flex flex-wrap items-center gap-2.5 mb-6">
+              <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs sm:text-sm font-semibold border border-[#E7DFD6] text-[#57534E] bg-white">
+                <MapPin size={14} className="text-[#881337]" />
+                <span>{PERSONAL_INFO.city}</span>
+              </div>
 
-            {/* Name */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-display font-extrabold text-stone-900 text-4xl sm:text-5xl md:text-6xl tracking-tight leading-tight"
-            >
-              Olá, eu sou <span className="text-rose-900 block sm:inline">{PERSONAL_INFO.displayName}</span>
-            </motion.h1>
+              <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs sm:text-sm font-semibold border border-[#047857] text-[#047857] bg-white">
+                <CheckCircle size={14} className="text-[#047857] shrink-0" />
+                <span>Disponível para início imediato e entrevistas</span>
+              </div>
+            </div>
 
-            {/* Subtitle / Typing Cargo */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-              className="h-10 sm:h-12 flex items-center mt-3"
-            >
-              <h2 className="font-display font-semibold text-lg sm:text-xl md:text-2xl text-rose-800 flex items-center">
-                <span>{typedText}</span>
-                <span className="w-[2px] h-[18px] sm:h-[22px] bg-rose-800 ml-1.5 animate-pulse" />
-              </h2>
-            </motion.div>
-
-            {/* Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="text-sm sm:text-base text-stone-600 max-w-xl leading-relaxed mt-4"
-            >
-              Seja bem-vindo ao meu espaço profissional. Uno a precisão das rotinas administrativas corporativas ao atendimento acolhedor de alta fidelização. Pronta para contribuir com organização, notas fiscais, CRM e simpatia no atendimento ao público.
-            </motion.p>
-
-            {/* Call to Actions (Buttons) */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-3 mt-8 w-full sm:w-auto"
-            >
-              <button
-                onClick={onOpenResume}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 bg-rose-800 hover:bg-rose-900 text-white rounded-full text-xs font-bold uppercase tracking-wider transition shadow-lg shadow-rose-900/20 cursor-pointer"
+            {/* Name with solid pure-CSS underline on first name */}
+            <h1 className="font-display font-extrabold text-[#1C1917] text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-tight">
+              Olá, eu sou{' '}
+              <span
+                className="inline-block"
+                style={{
+                  backgroundImage: 'linear-gradient(#881337, #881337)',
+                  backgroundSize: '100% 0.3em',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: '0 100%',
+                }}
               >
-                <Download size={15} />
+                Carolina
+              </span>{' '}
+              Ferreira
+            </h1>
+
+            {/* Static Cargo / Title */}
+            <h2 className="font-display font-bold text-lg sm:text-xl text-[#881337] mt-3">
+              {PERSONAL_INFO.title}
+            </h2>
+
+            {/* Roles tags in pills with 1px border and transparent background */}
+            <div className="flex flex-wrap gap-2 mt-4">
+              {PERSONAL_INFO.roles.map((role, idx) => (
+                <span
+                  key={idx}
+                  className="px-3 py-1 rounded-full border border-[#E7DFD6] text-xs sm:text-sm font-medium text-[#57534E] bg-transparent"
+                >
+                  {role}
+                </span>
+              ))}
+            </div>
+
+            {/* Description (min 16px, max 60ch, unmodified text) */}
+            <p className="text-base sm:text-lg text-[#57534E] max-w-[60ch] leading-relaxed mt-6">
+              Seja bem-vindo ao meu espaço profissional. Uno a precisão das rotinas administrativas corporativas ao atendimento acolhedor de alta fidelização. Pronta para contribuir com organização, notas fiscais, CRM e simpatia no atendimento ao público.
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3.5 mt-8 w-full sm:w-auto">
+              <button
+                type="button"
+                onClick={onOpenResume}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#047857] hover:bg-[#036546] text-white rounded-full text-base font-semibold shadow-[4px_4px_0_#1C1917] hover:translate-x-[1px] hover:translate-y-[1px] transition-all cursor-pointer"
+              >
+                <Download size={18} />
                 Baixar Currículo (PDF)
               </button>
               
               <button
+                type="button"
                 onClick={scrollToContact}
-                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 bg-rose-50 hover:bg-rose-100/80 text-rose-900 border border-rose-200 rounded-full text-xs font-bold uppercase tracking-wider transition cursor-pointer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 border-2 border-[#1C1917] text-[#1C1917] hover:bg-[#1C1917] hover:text-white rounded-full text-base font-semibold transition-colors cursor-pointer"
               >
-                <Send size={15} />
+                <Send size={18} />
                 Entrar em Contato
               </button>
-            </motion.div>
+            </div>
 
-            {/* Social Badges */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="flex items-center gap-4 mt-8"
-            >
-              <span className="text-xs font-semibold text-stone-400 uppercase tracking-widest">
+            {/* Social Links (pills with fine border, no shadow, neutral hover) */}
+            <div className="flex flex-wrap items-center gap-3 mt-8">
+              <span className="text-sm font-semibold text-[#57534E]">
                 Conecte-se comigo:
               </span>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <a
                   href={PERSONAL_INFO.linkedin}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-8 h-8 rounded-full bg-white hover:bg-rose-50 hover:text-rose-800 text-stone-600 flex items-center justify-center transition border border-stone-200 shadow-sm"
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#E7DFD6] text-[#1C1917] hover:border-[#881337] hover:text-[#881337] transition-colors text-sm font-medium bg-white"
                   title="Acessar LinkedIn"
                 >
                   <Linkedin size={15} />
+                  <span>LinkedIn</span>
                 </a>
                 <a
                   href={PERSONAL_INFO.whatsappUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-8 h-8 rounded-full bg-white hover:bg-emerald-50 hover:text-emerald-700 text-stone-600 flex items-center justify-center transition border border-stone-200 shadow-sm"
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#E7DFD6] text-[#1C1917] hover:border-[#881337] hover:text-[#881337] transition-colors text-sm font-medium bg-white"
                   title="Falar no WhatsApp"
                 >
                   <MessageSquare size={15} />
+                  <span>WhatsApp</span>
                 </a>
               </div>
-            </motion.div>
-
-            {/* Availability Badge */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              className="mt-6 flex items-center gap-1.5 text-xs text-emerald-700 font-semibold"
-            >
-              <CheckCircle size={14} className="animate-pulse" />
-              <span>Disponível para início imediato e entrevistas</span>
-            </motion.div>
+            </div>
 
           </div>
 
-          {/* Right Column (Round Professional Image) */}
-          <div className="lg:col-span-5 flex flex-col items-center justify-center">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7 }}
-              className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full overflow-hidden shadow-2xl shadow-rose-900/15 group border-8 border-white bg-rose-50"
-            >
-              {/* Soft visual glow background */}
-              <div className="absolute -inset-1 bg-gradient-to-tr from-rose-500 to-amber-200 opacity-25 blur-xl group-hover:opacity-35 transition-opacity duration-500 z-0 rounded-full" />
-              
-              {/* The photo of Carolina Ferreira (perfectly round) */}
-              <img
-                src={photoSrc}
-                onError={handleImageError}
-                alt={`Foto Profissional de ${PERSONAL_INFO.fullName}`}
-                className="w-full h-full object-cover object-[center_16%] contrast-[1.04] brightness-[1.03] saturate-[1.03] relative z-10 transition-transform duration-700 group-hover:scale-105 rounded-full"
-                referrerPolicy="no-referrer"
+          {/* Right Column (Rectangular Photo with displaced wine block) */}
+          <div className="lg:col-span-5 flex justify-center lg:justify-end">
+            <div className="relative w-64 h-80 sm:w-72 sm:h-96 md:w-80 md:h-[420px]">
+              {/* Solid wine block displaced 16px down and right */}
+              <div
+                className="absolute inset-0 translate-x-4 translate-y-4 bg-[#881337] rounded-[12px]"
+                aria-hidden="true"
               />
-            </motion.div>
-            
-            {/* Minimal circular portrait subtitle */}
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="mt-4 text-center"
-            >
-              <span className="text-xs font-bold text-rose-900 tracking-wide uppercase">{PERSONAL_INFO.fullName}</span>
-              <p className="text-[10px] text-stone-400 font-medium tracking-wider mt-0.5">{PERSONAL_INFO.city}</p>
-            </motion.div>
+              {/* Photo frame with 2px solid border, 12px radius */}
+              <div className="relative z-10 w-full h-full rounded-[12px] border-2 border-[#1C1917] overflow-hidden bg-white">
+                <img
+                  src={photoSrc}
+                  onError={handleImageError}
+                  alt={`Foto Profissional de ${PERSONAL_INFO.fullName}`}
+                  className="w-full h-full object-cover object-[center_16%]"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+            </div>
           </div>
 
         </div>
+
+        {/* 4 Stat Cards with real calculated data from data.ts */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-16 pt-10 border-t border-[#E7DFD6]">
+          <div className="bg-white rounded-[12px] p-5 sm:p-6 border border-[#E7DFD6]">
+            <span className="font-display font-extrabold text-3xl sm:text-4xl text-[#881337] block">
+              {EXPERIENCES.length}
+            </span>
+            <p className="text-sm font-medium text-[#57534E] mt-1">
+              Experiências
+            </p>
+          </div>
+
+          <div className="bg-white rounded-[12px] p-5 sm:p-6 border border-[#E7DFD6]">
+            <span className="font-display font-extrabold text-3xl sm:text-4xl text-[#881337] block">
+              {COURSES_LIST.length}
+            </span>
+            <p className="text-sm font-medium text-[#57534E] mt-1">
+              Cursos
+            </p>
+          </div>
+
+          <div className="bg-white rounded-[12px] p-5 sm:p-6 border border-[#E7DFD6]">
+            <span className="font-display font-extrabold text-3xl sm:text-4xl text-[#881337] block">
+              {totalCourseHours} h
+            </span>
+            <p className="text-sm font-medium text-[#57534E] mt-1">
+              Horas de cursos
+            </p>
+          </div>
+
+          <div className="bg-white rounded-[12px] p-5 sm:p-6 border border-[#E7DFD6]">
+            <span className="font-display font-extrabold text-3xl sm:text-4xl text-[#881337] block">
+              {SKILLS_LIST.length}
+            </span>
+            <p className="text-sm font-medium text-[#57534E] mt-1">
+              Competências
+            </p>
+          </div>
+        </div>
+
       </div>
     </section>
   );

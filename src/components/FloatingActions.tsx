@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { PERSONAL_INFO } from '../data';
 import { ArrowUp, MessageCircle } from 'lucide-react';
 
@@ -25,39 +25,37 @@ export default function FloatingActions() {
   return (
     <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3 print:hidden">
       <AnimatePresence>
-        {/* WhatsApp Floating Button */}
+        {/* Botão Flutuante do WhatsApp */}
         <motion.a
           key="floating-whatsapp"
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0, opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 10 }}
+          transition={{ duration: 0.2 }}
           href={PERSONAL_INFO.whatsappUrl}
           target="_blank"
           rel="noreferrer"
-          className="w-14 h-14 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-emerald-500/20 transition-all cursor-pointer group relative"
+          className="w-13 h-13 rounded-full border-2 border-[#1C1917] bg-[#047857] text-white flex items-center justify-center [box-shadow:4px_4px_0_#1C1917] hover:translate-x-[2px] hover:translate-y-[2px] hover:[box-shadow:2px_2px_0_#1C1917] active:translate-x-[4px] active:translate-y-[4px] active:[box-shadow:0_0_0_#1C1917] transition-all cursor-pointer"
           title="Falar no WhatsApp"
+          aria-label="Falar no WhatsApp"
         >
-          {/* Pulse effect */}
-          <span className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-25 group-hover:opacity-0" />
-          
-          <MessageCircle size={28} className="relative z-10 transition-transform group-hover:scale-110" />
+          <MessageCircle size={24} />
         </motion.a>
 
-        {/* Back to Top Button */}
+        {/* Botão de Retorno ao Topo */}
         {showScrollTop && (
           <motion.button
             key="scroll-top"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.2 }}
             onClick={scrollToTop}
-            className="w-12 h-12 bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 rounded-full flex items-center justify-center shadow-md transition-all cursor-pointer group"
+            className="w-11 h-11 rounded-full border-2 border-[#1C1917] bg-[#FFFFFF] text-[#1C1917] flex items-center justify-center [box-shadow:4px_4px_0_#1C1917] hover:translate-x-[2px] hover:translate-y-[2px] hover:[box-shadow:2px_2px_0_#1C1917] active:translate-x-[4px] active:translate-y-[4px] active:[box-shadow:0_0_0_#1C1917] transition-all cursor-pointer"
             title="Voltar ao Topo"
             aria-label="Voltar ao Topo"
           >
-            <ArrowUp size={20} className="transition-transform group-hover:-translate-y-0.5" />
+            <ArrowUp size={20} />
           </motion.button>
         )}
       </AnimatePresence>

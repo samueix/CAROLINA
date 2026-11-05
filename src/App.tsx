@@ -8,12 +8,11 @@ import Skills from './components/Skills';
 import Contact from './components/Contact';
 import PrintResume from './components/PrintResume';
 import FloatingActions from './components/FloatingActions';
-import LoadingScreen from './components/LoadingScreen';
 import AdminPanel from './components/AdminPanel';
 import { PERSONAL_INFO } from './data';
 import { ResumeConfig } from './types';
-import { motion, AnimatePresence } from 'motion/react';
-import { FileText, X, Printer, Sparkles, HelpCircle } from 'lucide-react';
+import { AnimatePresence } from 'motion/react';
+import { X, HelpCircle } from 'lucide-react';
 
 export default function App() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
@@ -37,118 +36,121 @@ export default function App() {
 
   return (
     <>
-      {/* Portfólio Principal (Escondido inteiramente durante a impressão de forma limpa) */}
-      <div className="portfolio-container min-h-screen bg-stone-50 text-stone-800 font-sans selection:bg-rose-200 selection:text-rose-950 overflow-x-hidden print:hidden">
-        {/* 1. Premium Loading Preloader */}
-        <LoadingScreen />
-
-        {/* 2. Interactive Navigation Bar */}
+      {/* Portfólio Principal */}
+      <div className="portfolio-container min-h-screen bg-[#FBF7F2] text-[#1C1917] font-sans overflow-x-hidden print:hidden">
+        {/* Barra de Navegação */}
         <Header 
           onOpenResume={() => setIsResumeOpen(true)} 
           onOpenAdmin={() => setIsAdminOpen(true)}
         />
 
-        {/* 3. Portfolio Page Sections */}
+        {/* Seções da Página */}
         <main>
-          {/* Hero Banner with typing effect */}
+          {/* Hero */}
           <Hero onOpenResume={() => setIsResumeOpen(true)} />
 
-          {/* Professional biography */}
+          {/* Sobre Mim */}
           <About />
 
-          {/* Chronological career track */}
+          {/* Trajetória Profissional */}
           <Timeline />
 
-          {/* Academic credentials and training courses */}
+          {/* Formação e Cursos */}
           <EducationAndCourses />
 
-          {/* Competencies grid with category filter */}
+          {/* Competências */}
           <Skills />
 
-          {/* Contact form and channels */}
+          {/* Contato */}
           <Contact />
         </main>
 
-        {/* 4. Footer Section */}
-        <footer className="bg-stone-900 text-stone-400 py-12 border-t border-stone-800">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-rose-800 flex items-center justify-center text-white font-bold text-sm shadow-md">
-                CF
+        {/* Rodapé: bloco escuro #1C1917 com raio superior de 12px */}
+        <footer className="bg-[#1C1917] text-stone-300 py-12 rounded-t-[12px] border-t border-stone-800">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6 pb-8 border-b border-stone-800/80">
+              <div className="text-center md:text-left">
+                <span className="font-display font-bold text-white tracking-tight text-xl block">
+                  {PERSONAL_INFO.displayName}
+                </span>
+                <p className="text-sm text-stone-400 mt-1">
+                  Vamos conversar?
+                </p>
               </div>
-              <span className="font-display font-semibold text-white tracking-tight text-base">
-                {PERSONAL_INFO.displayName}
-              </span>
+
+              <div>
+                <a
+                  href="#contato"
+                  className="inline-flex items-center justify-center px-6 py-2.5 rounded-full border border-stone-600 bg-transparent text-white text-sm font-semibold hover:bg-stone-800 hover:border-stone-400 transition"
+                >
+                  Entrar em contato
+                </a>
+              </div>
             </div>
 
-            <p className="text-xs text-stone-500 font-medium text-center">
-              &copy; {new Date().getFullYear()} {PERSONAL_INFO.fullName}. Todos os direitos reservados.
-            </p>
+            <div className="pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-stone-400">
+              <p className="text-center md:text-left">
+                &copy; {new Date().getFullYear()} {PERSONAL_INFO.fullName}. Todos os direitos reservados.
+              </p>
 
-            <div className="flex gap-4 text-xs font-medium">
-              <a href="#sobre" className="hover:text-rose-300 transition">Sobre</a>
-              <a href="#experiencia" className="hover:text-rose-300 transition">Carreira</a>
-              <a href="#formacao" className="hover:text-rose-300 transition">Cursos</a>
-              <a href="#contato" className="hover:text-rose-300 transition">Contato</a>
+              <div className="flex flex-wrap justify-center gap-6 text-sm font-medium">
+                <a href="#sobre" className="hover:text-white transition">Sobre</a>
+                <a href="#experiencia" className="hover:text-white transition">Carreira</a>
+                <a href="#formacao" className="hover:text-white transition">Cursos</a>
+                <a href="#contato" className="hover:text-white transition">Contato</a>
+              </div>
             </div>
           </div>
         </footer>
 
-        {/* 5. Floating Interactive Action Anchors (WhatsApp, scroll-top) */}
+        {/* Ações Flutuantes */}
         <FloatingActions />
 
-        {/* 6. CV PDF/Print Preview Overlay Drawer Modal */}
-        <AnimatePresence>
-          {isResumeOpen && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-stone-950/60 backdrop-blur-sm z-50 overflow-y-auto px-4 py-8 flex justify-center items-start print:p-0 print:bg-white"
-            >
-              {/* Modal backdrop wrapper click handler */}
-              <div className="absolute inset-0 z-0" onClick={() => setIsResumeOpen(false)} />
+        {/* Modal de Pré-visualização do Currículo (sem blur, sem spring, fundo 70% opaco) */}
+        {isResumeOpen && (
+          <div className="fixed inset-0 z-50 overflow-y-auto px-4 py-8 flex justify-center items-start print:p-0 print:bg-white">
+            {/* Backdrop com 70% opacidade sem blur */}
+            <div 
+              className="fixed inset-0 bg-[#1C1917]/70 transition-opacity" 
+              onClick={() => setIsResumeOpen(false)} 
+            />
 
-              {/* Modal content viewport */}
-              <motion.div
-                initial={{ y: 50, scale: 0.95 }}
-                animate={{ y: 0, scale: 1 }}
-                exit={{ y: 50, scale: 0.95 }}
-                transition={{ type: "spring", damping: 25, stiffness: 180 }}
-                className="relative z-10 w-full max-w-[850px] print:w-full print:max-w-full print:m-0"
-              >
-                {/* Escape trigger floating outside */}
+            {/* Conteúdo do Modal */}
+            <div className="relative z-10 w-full max-w-[850px] print:w-full print:max-w-full print:m-0 my-4">
+              {/* Botão de fechar em pílula com borda */}
+              <div className="flex justify-end mb-2 print:hidden">
                 <button
                   onClick={() => setIsResumeOpen(false)}
-                  className="absolute -top-4 -right-4 sm:top-4 sm:right-4 w-10 h-10 rounded-full bg-stone-900 text-white flex items-center justify-center hover:bg-stone-800 transition shadow-lg cursor-pointer print:hidden z-20"
-                  title="Fechar"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-stone-600 bg-[#1C1917] text-white hover:bg-stone-800 transition text-sm font-medium cursor-pointer"
+                  title="Fechar visualização"
                 >
-                  <X size={20} />
+                  <X size={16} />
+                  <span>Fechar</span>
                 </button>
+              </div>
 
-                {/* PDF formatting notice */}
-                <div className="bg-rose-50 border border-rose-200 text-rose-950 px-4 py-3 rounded-2xl mb-4 flex items-start gap-3 text-xs print:hidden shadow-sm">
-                  <HelpCircle className="text-rose-800 shrink-0 mt-0.5" size={16} />
-                  <div>
-                    <p className="font-bold">Dica de Exportação do Currículo:</p>
-                    <p className="text-stone-600 mt-0.5">
-                      Ao abrir a caixa de impressão, escolha a opção <strong>"Salvar como PDF"</strong> no campo "Destino". Para imprimir os detalhes gráficos, certifique-se de marcar <strong>"Gráficos de plano de fundo"</strong>.
-                    </p>
-                  </div>
+              {/* Dica de exportação */}
+              <div className="bg-[#FFFFFF] border border-[#E7DFD6] text-[#1C1917] px-4 py-3 rounded-[12px] mb-4 flex items-start gap-3 text-sm print:hidden">
+                <HelpCircle className="text-[#881337] shrink-0 mt-0.5" size={18} />
+                <div>
+                  <p className="font-bold">Dica de Exportação do Currículo:</p>
+                  <p className="text-[#57534E] mt-0.5 text-xs">
+                    Ao abrir a caixa de impressão, escolha a opção <strong>"Salvar como PDF"</strong> no campo "Destino". Para imprimir os detalhes gráficos, certifique-se de marcar <strong>"Gráficos de plano de fundo"</strong>.
+                  </p>
                 </div>
+              </div>
 
-                {/* Render the core print template with controls */}
-                <PrintResume 
-                  initialConfig={resumeConfig}
-                  onConfigChange={(newCfg) => setResumeConfig(newCfg)}
-                  onClose={() => setIsResumeOpen(false)} 
-                />
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              {/* Componente de impressão */}
+              <PrintResume 
+                initialConfig={resumeConfig}
+                onConfigChange={(newCfg) => setResumeConfig(newCfg)}
+                onClose={() => setIsResumeOpen(false)} 
+              />
+            </div>
+          </div>
+        )}
 
-        {/* Secret Admin Panel Overlay */}
+        {/* Painel Administrativo */}
         <AnimatePresence>
           {isAdminOpen && (
             <AdminPanel 
@@ -160,7 +162,7 @@ export default function App() {
         </AnimatePresence>
       </div>
 
-      {/* 7. Under-the-hood direct layout used strictly for system window.print() triggered outside modal */}
+      {/* Impressão direta do sistema window.print() */}
       <div className="hidden print:block print-only-container">
         <PrintResume initialConfig={resumeConfig} />
       </div>

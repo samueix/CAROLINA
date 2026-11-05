@@ -1,25 +1,80 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", "Poppins", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: "Poppins", "Inter", sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Bricolage Grotesque", "DM Sans", sans-serif;
+  --radius-card: 12px;
+  --shadow-solid: 4px 4px 0 #881337;
+
+  --color-wine: #881337;
+  --color-brand: #881337;
+  --color-bg-warm: #FBF7F2;
+  --color-surface: #FFFFFF;
+  --color-text-main: #1C1917;
+  --color-text-secondary: #57534E;
+  --color-line: #E7DFD6;
+  --color-footer-bg: #1C1917;
+  --color-support-green: #047857;
 }
 
-@layer utilities {
-  /* Scroll behavior smooth */
+@layer base {
   html {
     scroll-behavior: smooth;
+    font-size: 16px;
+    background-color: #FBF7F2;
+    color: #1C1917;
+    font-family: var(--font-sans);
+  }
+
+  body {
+    background-color: #FBF7F2;
+    color: #1C1917;
+    font-size: 1rem;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: #fecdd3;
+    color: #881337;
+  }
+
+  /* Teclado / Acessibilidade: foco visível consistente */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 3px solid #881337 !important;
+    outline-offset: 3px !important;
   }
 }
 
-/* Printing Specific Utility Styles to guarantee pristine vector-quality A4 PDF prints */
+/* Respeito à preferência de redução de movimento */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Impressão / PDF */
+@page {
+  size: A4;
+  margin: 12mm;
+}
+
 @media print {
-  /* Absolutely hide all browser scrollbars, main page sections, and overlays */
   body, html {
     background: white !important;
-    color: #1c1917 !important;
-    font-size: 11px !important;
+    color: #1C1917 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    letter-spacing: 0 !important;
     margin: 0 !important;
     padding: 0 !important;
     width: 100% !important;
@@ -29,12 +84,10 @@
     print-color-adjust: exact !important;
   }
 
-  /* Hide the portfolio container completely to prevent spilling empty pages */
   #root > .portfolio-container, .portfolio-container {
     display: none !important;
   }
 
-  /* Force display of the pure printable container */
   .print-only-container {
     display: block !important;
     position: absolute !important;
@@ -45,14 +98,18 @@
     padding: 0 !important;
     border: none !important;
     box-shadow: none !important;
+    background: white !important;
   }
 
-  /* Ensure page breaks do not rupture headings or cards awkwardly */
   h1, h2, h3, h4, header, footer, section {
     page-break-inside: avoid;
+    break-inside: avoid;
+    page-break-after: avoid;
+    break-after: avoid;
   }
 
-  ul, li, p {
+  ul, li, p, div {
     page-break-inside: avoid;
+    break-inside: avoid;
   }
 }

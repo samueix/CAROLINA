@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import { PERSONAL_INFO } from '../data';
-import { FileText, Menu, X, Sparkles } from 'lucide-react';
+import { FileText, Menu, X } from 'lucide-react';
 
 interface HeaderProps {
   onOpenResume: () => void;
@@ -9,16 +9,7 @@ interface HeaderProps {
 }
 
 export default function Header({ onOpenResume, onOpenAdmin }: HeaderProps) {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const navItems = [
     { label: 'Início', href: '#inicio' },
@@ -41,43 +32,41 @@ export default function Header({ onOpenResume, onOpenAdmin }: HeaderProps) {
   return (
     <header
       id="header"
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 print:hidden ${
-        scrolled
-          ? 'bg-white/85 backdrop-blur-md shadow-sm border-b border-rose-100 py-3'
-          : 'bg-transparent py-5'
-      }`}
+      className="sticky top-0 z-40 bg-[#FBF7F2] border-b border-[#E7DFD6] py-3.5 print:hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center gap-3 group">
-          <div 
+        {/* Logo / Nome */}
+        <div className="flex items-center gap-3">
+          <button 
+            type="button"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
               onOpenAdmin();
             }}
-            className="w-10 h-10 rounded-xl bg-rose-800 flex items-center justify-center text-white font-black text-sm tracking-wide transition-transform hover:scale-110 active:scale-95 cursor-pointer shadow-md shadow-rose-900/15"
-            title="Painel Administrativo da Carolina (Área Restrita)"
+            className="w-9 h-9 rounded-[12px] bg-[#881337] flex items-center justify-center text-white font-bold text-sm tracking-wide cursor-pointer hover:opacity-90 transition border border-[#881337]"
+            title="Painel Administrativo (Área Restrita)"
+            aria-label="Painel Administrativo"
           >
             CF
-          </div>
+          </button>
           <a 
             href="#inicio" 
             onClick={(e) => handleNavClick(e, '#inicio')}
-            className="font-display font-semibold text-stone-900 text-xl tracking-tight hover:text-rose-800 transition cursor-pointer"
+            className="font-display font-bold text-[#1C1917] text-lg tracking-tight hover:text-[#881337] transition cursor-pointer"
           >
             {PERSONAL_INFO.displayName}
           </a>
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-6">
           {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
               onClick={(e) => handleNavClick(e, item.href)}
-              className="text-xs font-medium uppercase tracking-widest text-stone-600 hover:text-rose-800 transition-colors duration-200"
+              className="text-sm font-medium text-[#1C1917] py-1 border-b-2 border-transparent hover:border-[#881337] hover:text-[#881337] transition-all duration-150"
             >
               {item.label}
             </a>
@@ -87,26 +76,30 @@ export default function Header({ onOpenResume, onOpenAdmin }: HeaderProps) {
         {/* Call To Actions */}
         <div className="hidden md:flex items-center gap-3">
           <button
+            type="button"
             onClick={onOpenResume}
-            className="flex items-center gap-2 px-5 py-2.5 bg-rose-800 hover:bg-rose-900 text-white rounded-full text-xs font-bold uppercase tracking-wider transition cursor-pointer shadow-lg shadow-rose-900/15"
+            className="flex items-center gap-2 px-5 py-2 bg-[#881337] text-white rounded-full text-sm font-semibold hover:bg-[#70102e] transition cursor-pointer border border-[#881337]"
           >
-            <FileText size={14} />
-            Visualizar Currículo
+            <FileText size={16} />
+            <span>Visualizar Currículo</span>
           </button>
         </div>
 
         {/* Mobile Menu Button */}
         <div className="flex md:hidden items-center gap-2">
           <button
+            type="button"
             onClick={onOpenResume}
-            className="p-2 text-stone-700 hover:text-rose-800 transition"
+            className="p-2 text-[#1C1917] hover:text-[#881337] transition"
             title="Visualizar Currículo"
+            aria-label="Visualizar Currículo"
           >
-            <FileText size={18} />
+            <FileText size={20} />
           </button>
           <button
+            type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-stone-700 hover:text-rose-800 transition cursor-pointer"
+            className="p-2 text-[#1C1917] hover:text-[#881337] transition cursor-pointer"
             aria-label="Abrir menu"
           >
             {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -121,30 +114,31 @@ export default function Header({ onOpenResume, onOpenAdmin }: HeaderProps) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden bg-white border-b border-rose-100 overflow-hidden shadow-lg"
+            transition={{ duration: 0.2 }}
+            className="md:hidden bg-[#FFFFFF] border-b border-[#E7DFD6] overflow-hidden"
           >
-            <div className="px-4 pt-2 pb-6 space-y-3">
+            <div className="px-4 pt-3 pb-6 space-y-2">
               {navItems.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className="block py-2 text-sm font-medium text-stone-600 hover:text-rose-800 hover:bg-rose-50/60 px-3 rounded-lg transition"
+                  className="block py-2 text-sm font-medium text-[#1C1917] hover:text-[#881337] px-3 rounded-[12px] hover:bg-stone-100 transition"
                 >
                   {item.label}
                 </a>
               ))}
-              <div className="pt-4 border-t border-rose-100 px-3">
+              <div className="pt-3 border-t border-[#E7DFD6] px-3">
                 <button
+                  type="button"
                   onClick={() => {
                     setMobileMenuOpen(false);
                     onOpenResume();
                   }}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 bg-rose-800 hover:bg-rose-900 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition"
+                  className="w-full flex items-center justify-center gap-2 py-2.5 bg-[#881337] text-white rounded-full text-sm font-semibold hover:bg-[#70102e] transition"
                 >
                   <FileText size={16} />
-                  Visualizar Currículo
+                  <span>Visualizar Currículo</span>
                 </button>
               </div>
             </div>

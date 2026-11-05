@@ -1,113 +1,137 @@
 import React from 'react';
 import { PERSONAL_INFO } from '../data';
-import { Mail, Phone, Linkedin, MessageSquare, Send, Globe } from 'lucide-react';
+import { Mail, Phone, Linkedin, MessageSquare, Globe, MapPin, ArrowUpRight } from 'lucide-react';
 
 export default function Contact() {
   return (
     <section
       id="contato"
-      className="py-20 bg-white border-t border-rose-100 relative overflow-hidden print:hidden"
+      className="py-20 bg-[#FBF7F2] border-t border-[#E7DFD6] print:hidden"
     >
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Title */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-xs font-bold text-rose-900 uppercase tracking-widest bg-rose-50 px-3.5 py-1 rounded-full border border-rose-200/50">
-            Contato
+        {/* Section Title (Padrão das fases) */}
+        <div className="mb-12">
+          <span className="inline-block text-sm font-semibold text-[#881337] border border-[#E7DFD6] px-3.5 py-1 rounded-full mb-3 bg-white">
+            05 — Contato
           </span>
-          <h2 className="text-3xl font-bold font-display text-stone-900 mt-3 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold font-display text-[#1C1917] tracking-tight">
             Vamos Conversar?
           </h2>
-          <p className="text-stone-500 mt-2 text-sm max-w-md mx-auto leading-relaxed">
-            Sinta-se à vontade para entrar em contato diretamente. Estou disponível para responder propostas, agendar entrevistas e esclarecer dúvidas.
+          <p className="text-base text-[#57534E] mt-2">
+            Por onde falar comigo.
           </p>
-          <div className="w-12 h-1 bg-rose-800 mx-auto mt-4 rounded-full" />
         </div>
 
-        {/* Center Grid of Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-4xl mx-auto">
+        {/* Contact Channels Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           
-          {/* Telephone */}
-          <div className="flex items-center gap-4 p-6 rounded-3xl bg-stone-50/60 border border-stone-200 shadow-sm hover:border-rose-200 hover:bg-white transition duration-300">
-            <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-800 flex items-center justify-center shrink-0 shadow-sm">
-              <Phone size={20} />
+          {/* Telefone */}
+          <div className="bg-white p-6 rounded-[12px] border border-[#E7DFD6] flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-[4px_4px_0px_#881337] motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none">
+            <div className="flex items-center gap-2.5 mb-3">
+              <Phone size={18} className="text-[#881337]" />
+              <span className="text-sm font-semibold text-[#57534E]">
+                Telefone / Celular
+              </span>
             </div>
-            <div>
-              <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest block mb-0.5">Telefone / Celular</span>
-              <a href={`tel:+5585985976871`} className="text-base font-bold text-stone-800 hover:text-rose-800 transition">
-                {PERSONAL_INFO.phone}
-              </a>
-            </div>
+            <a 
+              href="tel:+5585985976871" 
+              className="text-base font-bold text-[#1C1917] hover:text-[#881337] transition-colors"
+            >
+              {PERSONAL_INFO.phone}
+            </a>
           </div>
 
-          {/* Email */}
-          <div className="flex items-center gap-4 p-6 rounded-3xl bg-stone-50/60 border border-stone-200 shadow-sm hover:border-rose-200 hover:bg-white transition duration-300">
-            <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-800 flex items-center justify-center shrink-0 shadow-sm">
-              <Mail size={20} />
+          {/* E-mail */}
+          <div className="bg-white p-6 rounded-[12px] border border-[#E7DFD6] flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-[4px_4px_0px_#881337] motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none">
+            <div className="flex items-center gap-2.5 mb-3">
+              <Mail size={18} className="text-[#881337]" />
+              <span className="text-sm font-semibold text-[#57534E]">
+                E-mail Profissional
+              </span>
             </div>
-            <div className="min-w-0">
-              <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest block mb-0.5">E-mail Profissional</span>
-              <a href={`mailto:${PERSONAL_INFO.email}`} className="text-base font-bold text-stone-800 hover:text-rose-800 transition break-all block">
-                {PERSONAL_INFO.email}
-              </a>
-            </div>
+            <a 
+              href={`mailto:${PERSONAL_INFO.email}`} 
+              className="text-base font-bold text-[#1C1917] hover:text-[#881337] transition-colors break-all"
+            >
+              {PERSONAL_INFO.email}
+            </a>
           </div>
 
           {/* LinkedIn */}
-          <div className="flex items-center gap-4 p-6 rounded-3xl bg-stone-50/60 border border-stone-200 shadow-sm hover:border-rose-200 hover:bg-white transition duration-300">
-            <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-800 flex items-center justify-center shrink-0 shadow-sm">
-              <Linkedin size={20} />
-            </div>
-            <div className="min-w-0">
-              <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest block mb-0.5">LinkedIn Profissional</span>
-              <a 
-                href={PERSONAL_INFO.linkedin} 
-                target="_blank" 
-                rel="noreferrer" 
-                className="text-base font-bold text-stone-800 hover:text-rose-800 transition truncate block"
-              >
-                carolferreiraofc
-              </a>
-            </div>
-          </div>
-
-          {/* Portfolio Web */}
-          <div className="flex items-center gap-4 p-6 rounded-3xl bg-stone-50/60 border border-stone-200 shadow-sm hover:border-rose-200 hover:bg-white transition duration-300">
-            <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-800 flex items-center justify-center shrink-0 shadow-sm">
-              <Globe size={20} />
-            </div>
-            <div className="min-w-0">
-              <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest block mb-0.5">Portfólio Web Oficial</span>
-              <a 
-                href={PERSONAL_INFO.portfolioUrl} 
-                target="_blank" 
-                rel="noreferrer" 
-                className="text-base font-bold text-stone-800 hover:text-rose-800 transition truncate block"
-              >
-                {PERSONAL_INFO.portfolioDisplay}
-              </a>
-            </div>
-          </div>
-
-          {/* WhatsApp direct launch card */}
-          <div className="md:col-span-2">
-            <a
-              href={PERSONAL_INFO.whatsappUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center justify-between p-6 rounded-3xl bg-emerald-500/5 hover:bg-emerald-500/10 text-emerald-950 border border-emerald-500/15 hover:border-emerald-500/25 transition duration-300 group shadow-sm"
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-sm">
-                  <MessageSquare size={20} />
-                </div>
-                <div>
-                  <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-widest block mb-0.5">Conversa Imediata</span>
-                  <span className="text-base font-bold block">Falar com Carolina Ferreira no WhatsApp</span>
-                </div>
+          <div className="bg-white p-6 rounded-[12px] border border-[#E7DFD6] flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-[4px_4px_0px_#881337] motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none">
+            <div className="flex items-center justify-between gap-2 mb-3">
+              <div className="flex items-center gap-2.5">
+                <Linkedin size={18} className="text-[#881337]" />
+                <span className="text-sm font-semibold text-[#57534E]">
+                  LinkedIn Profissional
+                </span>
               </div>
-              <Send size={18} className="text-emerald-700 transition-transform group-hover:translate-x-1 mr-2" />
+              <ArrowUpRight size={16} className="text-[#57534E]" />
+            </div>
+            <a 
+              href={PERSONAL_INFO.linkedin} 
+              target="_blank" 
+              rel="noreferrer" 
+              className="text-base font-bold text-[#1C1917] hover:text-[#881337] transition-colors truncate block"
+            >
+              carolferreiraofc
             </a>
+          </div>
+
+          {/* Localização */}
+          <div className="bg-white p-6 rounded-[12px] border border-[#E7DFD6] flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-[4px_4px_0px_#881337] motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none">
+            <div className="flex items-center gap-2.5 mb-3">
+              <MapPin size={18} className="text-[#881337]" />
+              <span className="text-sm font-semibold text-[#57534E]">
+                Localização & Disponibilidade
+              </span>
+            </div>
+            <p className="text-base font-bold text-[#1C1917]">
+              {PERSONAL_INFO.city}
+            </p>
+          </div>
+
+          {/* Portfólio Web */}
+          <div className="bg-white p-6 rounded-[12px] border border-[#E7DFD6] flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-[4px_4px_0px_#881337] motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none">
+            <div className="flex items-center justify-between gap-2 mb-3">
+              <div className="flex items-center gap-2.5">
+                <Globe size={18} className="text-[#881337]" />
+                <span className="text-sm font-semibold text-[#57534E]">
+                  Portfólio Web Oficial
+                </span>
+              </div>
+              <ArrowUpRight size={16} className="text-[#57534E]" />
+            </div>
+            <a 
+              href={PERSONAL_INFO.portfolioUrl} 
+              target="_blank" 
+              rel="noreferrer" 
+              className="text-base font-bold text-[#1C1917] hover:text-[#881337] transition-colors truncate block"
+            >
+              {PERSONAL_INFO.portfolioDisplay}
+            </a>
+          </div>
+
+          {/* WhatsApp Direct Action */}
+          <div className="bg-white p-6 rounded-[12px] border border-[#E7DFD6] flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-[4px_4px_0px_#881337] motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none">
+            <div className="flex items-center gap-2.5 mb-3">
+              <MessageSquare size={18} className="text-[#881337]" />
+              <span className="text-sm font-semibold text-[#57534E]">
+                Mensagem Instantânea
+              </span>
+            </div>
+            <div>
+              <a
+                href={PERSONAL_INFO.whatsappUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 w-full min-h-[44px] px-5 py-2.5 rounded-full bg-[#047857] text-white text-base font-semibold shadow-[4px_4px_0px_#1C1917] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0px_#1C1917] focus-visible:outline-2 focus-visible:outline-[#881337] focus-visible:outline-offset-2"
+              >
+                <span>Falar no WhatsApp</span>
+                <ArrowUpRight size={18} />
+              </a>
+            </div>
           </div>
 
         </div>
