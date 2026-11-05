@@ -1,12 +1,14 @@
 import React from 'react';
-import { EXPERIENCES } from '../data';
+import { useContent } from '../useContent';
 import { Calendar, MapPin } from 'lucide-react';
 
 export default function Timeline() {
+  const { experiences } = useContent();
+
   return (
     <section
       id="experiencia"
-      className="py-24 sm:py-32 bg-[#FBF7F2] border-t border-[#E7DFD6] print:hidden"
+      className="py-20 sm:py-28 bg-[#F4EDE4] border-t border-[#E7DFD6] print:hidden"
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -15,7 +17,7 @@ export default function Timeline() {
           <span className="inline-block text-xs font-bold text-[#881337] uppercase tracking-wider px-3 py-1 rounded-full border border-[#E7DFD6] bg-transparent">
             02 — Carreira
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold font-display text-[#1C1917] mt-3 tracking-tight">
+          <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold font-display text-[#1C1917] mt-3 tracking-tight leading-tight">
             Experiência Profissional
           </h2>
           <p className="text-base text-[#57534E] mt-2">
@@ -23,7 +25,7 @@ export default function Timeline() {
           </p>
         </div>
 
-        {/* Timeline Container: Single vertical line on the left for ALL widths */}
+        {/* Timeline Container: Single vertical line on the left */}
         <div className="relative pl-8 sm:pl-10">
           
           {/* Vertical line: 2px #E7DFD6 on the left */}
@@ -33,7 +35,7 @@ export default function Timeline() {
           />
 
           <div className="space-y-10">
-            {EXPERIENCES.map((exp) => {
+            {experiences.map((exp) => {
               const isCurrent = exp.period.includes('Atualmente');
 
               return (
@@ -46,7 +48,7 @@ export default function Timeline() {
                   />
 
                   {/* Experience Card */}
-                  <div className="bg-white p-6 sm:p-8 rounded-[12px] border border-[#E7DFD6] transition-all duration-150 hover:-translate-y-1 hover:shadow-[4px_4px_0_#881337] motion-reduce:transform-none motion-reduce:shadow-none">
+                  <div className="bg-white p-6 sm:p-8 rounded-[12px] border border-[#E7DFD6] transition-all duration-150 hover:-translate-y-1 hover:border-[#1C1917] hover:shadow-[4px_4px_0_#1C1917] motion-reduce:transform-none motion-reduce:shadow-none">
                     
                     {/* Header info */}
                     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-5">
@@ -86,7 +88,7 @@ export default function Timeline() {
 
                     <div className="w-full h-px bg-[#E7DFD6] my-5" />
 
-                    {/* Activities detail list */}
+                    {/* Activities detail list with 17px, line-height 1.7 */}
                     <div className="space-y-3">
                       <p className="text-xs font-bold text-[#57534E] uppercase tracking-wider">
                         Atribuições & Conquistas:
@@ -95,7 +97,7 @@ export default function Timeline() {
                         {exp.activities.map((activity, i) => (
                           <li
                             key={i}
-                            className="flex items-start gap-3 text-base text-[#57534E] leading-[1.65]"
+                            className="flex items-start gap-3 text-[17px] text-[#57534E] leading-[1.7]"
                           >
                             <span
                               className="w-1.5 h-1.5 rounded-full bg-[#881337] shrink-0 mt-2.5"
@@ -108,7 +110,6 @@ export default function Timeline() {
                     </div>
 
                   </div>
-
                 </div>
               );
             })}

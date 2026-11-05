@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode';
-import { PERSONAL_INFO, EXPERIENCES, EDUCATION_LIST, COURSES_LIST, RESUME_MAIN_SKILLS } from '../data';
+import { useContent } from '../useContent';
+import { RESUME_MAIN_SKILLS } from '../data';
 import { ResumeConfig } from '../types';
 import { 
   Mail, Phone, MapPin, Linkedin, Award, Briefcase, GraduationCap, 
@@ -21,6 +22,7 @@ const DEFAULT_CONFIG: ResumeConfig = {
 };
 
 export default function PrintResume({ onClose, initialConfig, onConfigChange }: PrintResumeProps) {
+  const { personal, experiences, education, courses, skills } = useContent();
   const isIframe = typeof window !== 'undefined' && window.self !== window.top;
 
   // Configuration state with localStorage persistence
@@ -40,7 +42,12 @@ export default function PrintResume({ onClose, initialConfig, onConfigChange }: 
   });
 
   const [qrCodeUrl, setQrCodeUrl] = useState<string>('');
-  const [photoSrc, setPhotoSrc] = useState(PERSONAL_INFO.photoUrl);
+  const [photoSrc, setPhotoSrc] = useState(personal.photoUrl);
+
+  // Sync photo if personal changes via useContent
+  useEffect(() => {
+    setPhotoSrc(personal.photoUrl);
+  }, [personal.photoUrl]);
 
   // Sync external config if provided
   useEffect(() => {
@@ -51,7 +58,7 @@ export default function PrintResume({ onClose, initialConfig, onConfigChange }: 
 
   // Generate QR Code vector data URL
   useEffect(() => {
-    QRCode.toDataURL(PERSONAL_INFO.portfolioUrl, {
+    QRCode.toDataURL(personal.portfolioUrl, {
       width: 240,
       margin: 1,
       color: {
@@ -60,16 +67,21 @@ export default function PrintResume({ onClose, initialConfig, onConfigChange }: 
       }
     })
       .then((url) => setQrCodeUrl(url))
-      .catch((err) => console.error('Erro ao gerar QR Code:', err));
-  }, []);
+      .catch((err) => console.error(err));
+  }, [personal.portfolioUrl]);
 
+  // Persist config changes
   const updateConfig = (newConfig: ResumeConfig) => {
     setConfig(newConfig);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('carol_resume_config', JSON.stringify(newConfig));
-    }
     if (onConfigChange) {
       onConfigChange(newConfig);
+    }
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem('carol_resume_config', JSON.stringify(newConfig));
+      } catch (e) {
+        console.error('Falha ao salvar carol_resume_config:', e);
+      }
     }
   };
 
@@ -80,72 +92,56 @@ export default function PrintResume({ onClose, initialConfig, onConfigChange }: 
     });
   };
 
-  return (
-    <div className="max-w-[850px] mx-auto bg-white text-[#1C1917] p-6 sm:p-10 rounded-[12px] border border-[#E7DFD6] shadow-none print:shadow-none print:border-none print:p-0 print:m-0 print:max-w-full print:rounded-none print:font-[Arial,Helvetica,sans-serif]">
-      
-      {/* Iframe Warning Banner - Only on screen */}
-      {isIframe && (
-        <div className="bg-[#FBF7F2] border border-[#E7DFD6] text-[#1C1917] p-4 rounded-[12px] mb-6 text-sm flex flex-col gap-2 print:hidden">
-          <p className="font-bold text-[#881337] text-sm">
-            Orientação para impressão em PDF
-          </p>
-          <p className="text-[#57534E] text-sm leading-relaxed">
-            Navegadores bloqueiam a impressão direta de dentro do painel lateral. 
-            Para gerar seu currículo com máxima qualidade vetorial, abra o site em uma nova aba e utilize a opção Imprimir / Salvar PDF.
-          </p>
-          <a
-            href={typeof window !== 'undefined' ? window.location.href : '#'}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center justify-center px-4 py-2 bg-[#047857] hover:bg-[#036045] text-white rounded-full text-sm font-semibold transition w-fit mt-1 shadow-[2px_2px_0_#1C1917]"
-          >
-            Abrir Portfólio em Nova Aba
-          </a>
-        </div>
-      )}
+  // Safe browser printing
+  const handlePrint = () => {
+    if (typeof window !== 'undefined') {
+      window.print();
+    }
+  };
 
-      {/* Interactive Customization Toolbar - Screen only */}
-      <div className="bg-[#FBF7F2] border border-[#E7DFD6] p-4 rounded-[12px] mb-6 print:hidden">
-        <div className="flex flex-wrap justify-between items-center gap-3">
-          <div>
-            <h3 className="text-sm font-bold text-[#1C1917]">
-              Opções do Currículo
-            </h3>
-            <p className="text-sm text-[#57534E]">
-              Defina os elementos antes de imprimir ou salvar como PDF:
-            </p>
+  return (
+    <div
+      className="bg-white text-[#1C1917] p-6 sm:p-10 max-w-[850px] mx-auto border border-[#E7DFD6] rounded-[12px] print:rounded-none print:border-none print:p-0 print:m-0 print:max-w-none print:w-full print:shadow-none"
+      style={{
+        fontFamily: 'Arial, Helvetica, sans-serif',
+        fontSize: '10.5pt',
+        letterSpacing: 0,
+        boxShadow: 'none'
+      }}
+    >
+      {/* SCREEN TOOLBAR (Hidden in Print) */}
+      <div className="print:hidden border-b border-[#E7DFD6] pb-4 mb-6">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-[#881337] uppercase tracking-wider px-3 py-1 rounded-full border border-[#E7DFD6] bg-[#F3EBE2]">
+              Configurações de Impressão
+            </span>
           </div>
 
           <div className="flex items-center gap-2">
             <button
-              onClick={() => {
-                if (isIframe) {
-                  alert("Para salvar o PDF, abra o portfólio em uma nova aba usando o botão do aviso acima.");
-                } else {
-                  window.print();
-                }
-              }}
-              className="px-4 py-2 bg-[#047857] hover:bg-[#036045] text-white rounded-full text-sm font-semibold transition cursor-pointer shadow-[2px_2px_0_#1C1917] flex items-center gap-1.5"
-              id="print-btn"
+              onClick={handlePrint}
+              className="px-4 py-2 bg-[#047857] hover:bg-[#036546] text-white rounded-full text-sm font-semibold flex items-center gap-1.5 transition cursor-pointer shadow-[2px_2px_0px_#1C1917]"
+              title="Abrir diálogo de impressão do navegador"
             >
-              <Printer size={15} />
-              Imprimir / Salvar PDF
+              <Printer size={16} />
+              <span>Imprimir / Salvar PDF</span>
             </button>
             {onClose && (
               <button
                 onClick={onClose}
-                className="px-3 py-2 bg-white text-[#1C1917] hover:bg-stone-100 rounded-full text-sm font-semibold border border-[#E7DFD6] transition cursor-pointer"
+                className="p-2 text-[#57534E] hover:text-[#1C1917] hover:bg-stone-100 rounded-full transition cursor-pointer"
                 title="Fechar"
               >
-                <X size={15} />
+                <X size={18} />
               </button>
             )}
           </div>
         </div>
 
-        {/* Toggles */}
-        <div className="flex flex-wrap items-center gap-2 pt-3 mt-3 border-t border-[#E7DFD6]">
-          <span className="text-sm font-bold text-[#57534E] mr-1">
+        {/* Toggles for layout options */}
+        <div className="flex flex-wrap items-center gap-2 text-sm text-[#57534E]">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#1C1917] mr-1">
             Opções:
           </span>
 
@@ -154,7 +150,7 @@ export default function PrintResume({ onClose, initialConfig, onConfigChange }: 
             onClick={() => handleToggle('showPhoto')}
             className={`px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-1.5 transition cursor-pointer border ${
               config.showPhoto
-                ? 'bg-rose-50 text-[#881337] border-[#881337] font-semibold'
+                ? 'bg-[#F3EBE2] text-[#881337] border-[#881337] font-semibold'
                 : 'bg-white text-[#57534E] border-[#E7DFD6] hover:bg-stone-50'
             }`}
           >
@@ -184,7 +180,7 @@ export default function PrintResume({ onClose, initialConfig, onConfigChange }: 
             onClick={() => handleToggle('showQrCode')}
             className={`px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-1.5 transition cursor-pointer border ${
               config.showQrCode
-                ? 'bg-rose-50 text-[#881337] border-[#881337] font-semibold'
+                ? 'bg-[#F3EBE2] text-[#881337] border-[#881337] font-semibold'
                 : 'bg-white text-[#57534E] border-[#E7DFD6] hover:bg-stone-50'
             }`}
           >
@@ -197,7 +193,7 @@ export default function PrintResume({ onClose, initialConfig, onConfigChange }: 
             onClick={() => handleToggle('showPortfolioLink')}
             className={`px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-1.5 transition cursor-pointer border ${
               config.showPortfolioLink
-                ? 'bg-rose-50 text-[#881337] border-[#881337] font-semibold'
+                ? 'bg-[#F3EBE2] text-[#881337] border-[#881337] font-semibold'
                 : 'bg-white text-[#57534E] border-[#E7DFD6] hover:bg-stone-50'
             }`}
           >
@@ -207,7 +203,7 @@ export default function PrintResume({ onClose, initialConfig, onConfigChange }: 
         </div>
       </div>
 
-      {/* HEADER SECTION - Solid styling, no gradients, clean lines */}
+      {/* HEADER SECTION */}
       <header className="border-b-2 border-[#881337] pb-5 mb-5 break-after-avoid" style={{ pageBreakInside: 'avoid', breakInside: 'avoid', pageBreakAfter: 'avoid', breakAfter: 'avoid' }}>
         <div className="flex flex-col sm:flex-row print:flex-row justify-between items-start gap-4">
           
@@ -224,8 +220,8 @@ export default function PrintResume({ onClose, initialConfig, onConfigChange }: 
                 >
                   <img
                     src={photoSrc}
-                    onError={() => setPhotoSrc((PERSONAL_INFO as any).backupPhotoUrl)}
-                    alt={PERSONAL_INFO.fullName}
+                    onError={() => setPhotoSrc((personal as any).backupPhotoUrl || personal.photoUrl)}
+                    alt={personal.fullName}
                     className="w-full h-full object-cover object-[center_16%]"
                   />
                 </div>
@@ -234,13 +230,13 @@ export default function PrintResume({ onClose, initialConfig, onConfigChange }: 
             
             <div className="flex-1 min-w-0">
               <h1 className="text-2xl sm:text-3xl print:text-[18pt] font-extrabold text-[#1C1917] tracking-tight font-display print:font-[Arial,Helvetica,sans-serif]">
-                {PERSONAL_INFO.fullName}
+                {personal.fullName}
               </h1>
               <h2 className="text-base print:text-[11.5pt] font-bold text-[#881337] mt-0.5 print:font-[Arial,Helvetica,sans-serif]">
-                {PERSONAL_INFO.title}
+                {personal.title}
               </h2>
               <p className="text-sm print:text-[10pt] text-[#57534E] mt-2 max-w-xl leading-relaxed text-justify print:font-[Arial,Helvetica,sans-serif]">
-                {PERSONAL_INFO.objective}
+                {personal.objective}
               </p>
             </div>
           </div>
@@ -251,31 +247,31 @@ export default function PrintResume({ onClose, initialConfig, onConfigChange }: 
             {/* Contacts list */}
             <div className="flex flex-col gap-1 text-sm print:text-[9.5pt] text-[#57534E] sm:items-end print:items-end print:font-[Arial,Helvetica,sans-serif]">
               <div className="flex items-center gap-1.5">
-                <span>{PERSONAL_INFO.city}</span>
-                <MapPin size={14} className="text-[#881337] shrink-0" />
+                <span>{personal.city}</span>
+                <MapPin size={14} className="text-[#881337]" shrink-0 />
               </div>
               <div className="flex items-center gap-1.5">
-                <span>{PERSONAL_INFO.phone}</span>
-                <Phone size={14} className="text-[#881337] shrink-0" />
+                <span>{personal.phone}</span>
+                <Phone size={14} className="text-[#881337]" shrink-0 />
               </div>
               <div className="flex items-center gap-1.5">
-                <a href={`mailto:${PERSONAL_INFO.email}`} className="hover:text-[#881337] hover:underline">
-                  {PERSONAL_INFO.email}
+                <a href={`mailto:${personal.email}`} className="hover:text-[#881337] hover:underline">
+                  {personal.email}
                 </a>
-                <Mail size={14} className="text-[#881337] shrink-0" />
+                <Mail size={14} className="text-[#881337]" shrink-0 />
               </div>
               <div className="flex items-center gap-1.5">
-                <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noreferrer" className="hover:text-[#881337] hover:underline">
-                  {PERSONAL_INFO.linkedinDisplay}
+                <a href={personal.linkedin} target="_blank" rel="noreferrer" className="hover:text-[#881337] hover:underline">
+                  {personal.linkedinDisplay || 'carolferreiraofc'}
                 </a>
-                <Linkedin size={14} className="text-[#881337] shrink-0" />
+                <Linkedin size={14} className="text-[#881337]" shrink-0 />
               </div>
               {config.showPortfolioLink && (
                 <div className="flex items-center gap-1.5 font-bold text-[#881337]">
-                  <a href={PERSONAL_INFO.portfolioUrl} target="_blank" rel="noreferrer" className="hover:underline">
-                    {PERSONAL_INFO.portfolioDisplay}
+                  <a href={personal.portfolioUrl} target="_blank" rel="noreferrer" className="hover:underline">
+                    {personal.portfolioDisplay}
                   </a>
-                  <Globe size={14} className="text-[#881337] shrink-0" />
+                  <Globe size={14} className="text-[#881337]" shrink-0 />
                 </div>
               )}
             </div>
@@ -311,7 +307,7 @@ export default function PrintResume({ onClose, initialConfig, onConfigChange }: 
               Sobre Mim
             </h3>
             <p className="text-sm print:text-[10pt] text-[#57534E] leading-relaxed text-justify print:font-[Arial,Helvetica,sans-serif]">
-              Profissional comunicativa, organizada e focada na satisfação do cliente. Possui vivência corporativa em rotinas de recepção, atendimento telefônico e presencial, conciliação e lançamento de notas fiscais, CRM e suporte operacional, além de sólida habilidade em autogestão e relacionamento.
+              {personal.about ? personal.about.split('\n')[0] : 'Profissional comunicativa, organizada e focada na satisfação do cliente.'}
             </p>
           </section>
 
@@ -321,7 +317,7 @@ export default function PrintResume({ onClose, initialConfig, onConfigChange }: 
               <GraduationCap size={15} />
               Formação
             </h3>
-            {EDUCATION_LIST.map((edu) => (
+            {education.map((edu) => (
               <div key={edu.id} className="text-sm print:text-[10pt]" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
                 <h4 className="font-bold text-[#1C1917] print:font-[Arial,Helvetica,sans-serif]">{edu.degree}</h4>
                 <p className="text-[#57534E] print:font-[Arial,Helvetica,sans-serif]">{edu.institution}</p>
@@ -339,7 +335,7 @@ export default function PrintResume({ onClose, initialConfig, onConfigChange }: 
               Principais Competências
             </h3>
             <div className="flex flex-wrap gap-1.5">
-              {RESUME_MAIN_SKILLS.map((skillName, idx) => (
+              {(skills.length > 0 ? skills.slice(0, 10).map((s) => s.name) : RESUME_MAIN_SKILLS).map((skillName, idx) => (
                 <span 
                   key={idx} 
                   className="text-xs print:text-[9.5pt] bg-white text-[#1C1917] border border-[#E7DFD6] px-2.5 py-1 rounded-full font-medium print:rounded-none print:border-[#E7DFD6] print:font-[Arial,Helvetica,sans-serif]"
@@ -351,19 +347,21 @@ export default function PrintResume({ onClose, initialConfig, onConfigChange }: 
           </section>
 
           {/* Diferenciais */}
-          <section style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
-            <h3 className="text-sm print:text-[10.5pt] font-bold text-[#881337] border-b border-[#E7DFD6] pb-1 mb-2 font-display print:font-[Arial,Helvetica,sans-serif]" style={{ pageBreakAfter: 'avoid', breakAfter: 'avoid' }}>
-              Diferenciais
-            </h3>
-            <ul className="text-sm print:text-[10pt] text-[#57534E] space-y-1.5 print:font-[Arial,Helvetica,sans-serif]">
-              {PERSONAL_INFO.additionalInfo.map((info, idx) => (
-                <li key={idx} className="flex items-start gap-1.5" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
-                  <span className="text-[#881337] font-bold mt-0.5">·</span>
-                  <span>{info}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
+          {personal.additionalInfo && personal.additionalInfo.length > 0 && (
+            <section style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
+              <h3 className="text-sm print:text-[10.5pt] font-bold text-[#881337] border-b border-[#E7DFD6] pb-1 mb-2 font-display print:font-[Arial,Helvetica,sans-serif]" style={{ pageBreakAfter: 'avoid', breakAfter: 'avoid' }}>
+                Diferenciais
+              </h3>
+              <ul className="text-sm print:text-[10pt] text-[#57534E] space-y-1.5 print:font-[Arial,Helvetica,sans-serif]">
+                {personal.additionalInfo.map((info, idx) => (
+                  <li key={idx} className="flex items-start gap-1.5" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
+                    <span className="text-[#881337] font-bold mt-0.5">·</span>
+                    <span>{info}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
 
         </div>
 
@@ -377,7 +375,7 @@ export default function PrintResume({ onClose, initialConfig, onConfigChange }: 
               Experiência Profissional
             </h3>
             <div className="space-y-4">
-              {EXPERIENCES.map((exp) => (
+              {experiences.map((exp) => (
                 <div key={exp.id} className="text-sm print:text-[10.5pt]" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
                   <div className="flex justify-between items-start flex-wrap gap-1">
                     <div>
@@ -408,7 +406,7 @@ export default function PrintResume({ onClose, initialConfig, onConfigChange }: 
               Cursos e Qualificações
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 gap-3">
-              {COURSES_LIST.map((course) => (
+              {courses.map((course) => (
                 <div 
                   key={course.id} 
                   className="text-sm print:text-[10pt] bg-white p-3 rounded-[12px] print:rounded-none border border-[#E7DFD6] print:border-none print:p-0"
@@ -437,9 +435,9 @@ export default function PrintResume({ onClose, initialConfig, onConfigChange }: 
 
       {/* PRINTABLE FOOTER */}
       <footer className="mt-6 pt-4 border-t border-[#E7DFD6] flex flex-col sm:flex-row justify-between items-center text-xs print:text-[9pt] text-[#57534E] gap-1 print:flex print:font-[Arial,Helvetica,sans-serif]" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
-        <p>{PERSONAL_INFO.fullName} — Contato: {PERSONAL_INFO.phone} | {PERSONAL_INFO.email}</p>
+        <p>{personal.fullName} — Contato: {personal.phone} | {personal.email}</p>
         <p className="font-semibold text-[#881337]">
-          Portfólio online: {PERSONAL_INFO.portfolioDisplay}
+          Portfólio online: {personal.portfolioDisplay}
         </p>
       </footer>
 

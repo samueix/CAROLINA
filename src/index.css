@@ -5,11 +5,12 @@
   --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-display: "Bricolage Grotesque", "DM Sans", sans-serif;
   --radius-card: 12px;
-  --shadow-solid: 4px 4px 0 #881337;
+  --shadow-solid: 4px 4px 0 #1C1917;
 
-  --color-wine: #881337;
   --color-brand: #881337;
+  --color-wine: var(--color-brand);
   --color-bg-warm: #FBF7F2;
+  --color-bg-alt: #F4EDE4;
   --color-surface: #FFFFFF;
   --color-text-main: #1C1917;
   --color-text-secondary: #57534E;
@@ -36,8 +37,8 @@
   }
 
   ::selection {
-    background-color: #fecdd3;
-    color: #881337;
+    background-color: #E7DFD6;
+    color: #1C1917;
   }
 
   /* Teclado / Acessibilidade: foco visível consistente */

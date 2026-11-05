@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -9,14 +9,17 @@ import Contact from './components/Contact';
 import PrintResume from './components/PrintResume';
 import FloatingActions from './components/FloatingActions';
 import AdminPanel from './components/AdminPanel';
-import { PERSONAL_INFO } from './data';
+import { useContent } from './useContent';
 import { ResumeConfig } from './types';
 import { AnimatePresence } from 'motion/react';
 import { X, HelpCircle } from 'lucide-react';
 
 export default function App() {
+  const { personal } = useContent();
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const lastFocusedElementRef = useRef<HTMLElement | null>(null);
+
   const [resumeConfig, setResumeConfig] = useState<ResumeConfig>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('carol_resume_config');
@@ -34,14 +37,65 @@ export default function App() {
     };
   });
 
+  // Atalho de teclado: Ctrl+Alt+A (ou Cmd+Option+A) e Esc
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const activeTag = (document.activeElement?.tagName || '').toUpperCase();
+      const isInput = ['INPUT', 'TEXTAREA', 'SELECT'].includes(activeTag);
+
+      // Fechar com Esc quando o admin estiver aberto
+      if (e.key === 'Escape' && isAdminOpen) {
+        e.preventDefault();
+        setIsAdminOpen(false);
+        return;
+      }
+
+      // Atalho invisível: Ctrl+Alt+A ou Cmd+Option+A (não intercepta Ctrl+A sozinho)
+      const isModifierActive = (e.ctrlKey || e.metaKey) && e.altKey;
+      const isKeyA = e.key === 'a' || e.key === 'A';
+
+      if (isModifierActive && isKeyA && !isInput) {
+        e.preventDefault();
+        setIsAdminOpen((prev) => !prev);
+      }
+    };
+
+    const handleSecretMobileTrigger = () => {
+      setIsAdminOpen(true);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('open_admin_secret', handleSecretMobileTrigger);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('open_admin_secret', handleSecretMobileTrigger);
+    };
+  }, [isAdminOpen]);
+
+  // Bloqueio de rolagem da página e foco no painel
+  useEffect(() => {
+    if (isAdminOpen) {
+      lastFocusedElementRef.current = document.activeElement as HTMLElement;
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+
+      return () => {
+        document.body.style.overflow = originalOverflow;
+        if (lastFocusedElementRef.current && typeof lastFocusedElementRef.current.focus === 'function') {
+          lastFocusedElementRef.current.focus();
+        }
+      };
+    }
+  }, [isAdminOpen]);
+
   return (
     <>
       {/* Portfólio Principal */}
       <div className="portfolio-container min-h-screen bg-[#FBF7F2] text-[#1C1917] font-sans overflow-x-hidden print:hidden">
-        {/* Barra de Navegação */}
+        {/* Barra de Navegação sem botões de admin */}
         <Header 
           onOpenResume={() => setIsResumeOpen(true)} 
-          onOpenAdmin={() => setIsAdminOpen(true)}
         />
 
         {/* Seções da Página */}
@@ -71,7 +125,7 @@ export default function App() {
             <div className="flex flex-col md:flex-row justify-between items-center gap-6 pb-8 border-b border-stone-800/80">
               <div className="text-center md:text-left">
                 <span className="font-display font-bold text-white tracking-tight text-xl block">
-                  {PERSONAL_INFO.displayName}
+                  {personal.displayName}
                 </span>
                 <p className="text-sm text-stone-400 mt-1">
                   Vamos conversar?
@@ -90,7 +144,7 @@ export default function App() {
 
             <div className="pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-stone-400">
               <p className="text-center md:text-left">
-                &copy; {new Date().getFullYear()} {PERSONAL_INFO.fullName}. Todos os direitos reservados.
+                &copy; {new Date().getFullYear()} {personal.fullName}. Todos os direitos reservados.
               </p>
 
               <div className="flex flex-wrap justify-center gap-6 text-sm font-medium">
@@ -106,18 +160,15 @@ export default function App() {
         {/* Ações Flutuantes */}
         <FloatingActions />
 
-        {/* Modal de Pré-visualização do Currículo (sem blur, sem spring, fundo 70% opaco) */}
+        {/* Modal de Pré-visualização do Currículo */}
         {isResumeOpen && (
           <div className="fixed inset-0 z-50 overflow-y-auto px-4 py-8 flex justify-center items-start print:p-0 print:bg-white">
-            {/* Backdrop com 70% opacidade sem blur */}
             <div 
               className="fixed inset-0 bg-[#1C1917]/70 transition-opacity" 
               onClick={() => setIsResumeOpen(false)} 
             />
 
-            {/* Conteúdo do Modal */}
             <div className="relative z-10 w-full max-w-[850px] print:w-full print:max-w-full print:m-0 my-4">
-              {/* Botão de fechar em pílula com borda */}
               <div className="flex justify-end mb-2 print:hidden">
                 <button
                   onClick={() => setIsResumeOpen(false)}
@@ -129,7 +180,6 @@ export default function App() {
                 </button>
               </div>
 
-              {/* Dica de exportação */}
               <div className="bg-[#FFFFFF] border border-[#E7DFD6] text-[#1C1917] px-4 py-3 rounded-[12px] mb-4 flex items-start gap-3 text-sm print:hidden">
                 <HelpCircle className="text-[#881337] shrink-0 mt-0.5" size={18} />
                 <div>
@@ -140,7 +190,6 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Componente de impressão */}
               <PrintResume 
                 initialConfig={resumeConfig}
                 onConfigChange={(newCfg) => setResumeConfig(newCfg)}
@@ -150,7 +199,7 @@ export default function App() {
           </div>
         )}
 
-        {/* Painel Administrativo */}
+        {/* Painel Administrativo com Overlay Embaçado e Modo Furtivo */}
         <AnimatePresence>
           {isAdminOpen && (
             <AdminPanel 

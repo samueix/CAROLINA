@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { PERSONAL_INFO } from '../data';
+import { useContent } from '../useContent';
 import { ArrowUp, MessageCircle } from 'lucide-react';
 
 export default function FloatingActions() {
+  const { personal } = useContent();
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export default function FloatingActions() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 10 }}
           transition={{ duration: 0.2 }}
-          href={PERSONAL_INFO.whatsappUrl}
+          href={personal.whatsappUrl}
           target="_blank"
           rel="noreferrer"
           className="w-13 h-13 rounded-full border-2 border-[#1C1917] bg-[#047857] text-white flex items-center justify-center [box-shadow:4px_4px_0_#1C1917] hover:translate-x-[2px] hover:translate-y-[2px] hover:[box-shadow:2px_2px_0_#1C1917] active:translate-x-[4px] active:translate-y-[4px] active:[box-shadow:0_0_0_#1C1917] transition-all cursor-pointer"

@@ -1,6 +1,9 @@
 import React from 'react';
+import { useContent } from '../useContent';
 
 export default function About() {
+  const { personal } = useContent();
+
   const values = [
     {
       num: "01",
@@ -27,7 +30,7 @@ export default function About() {
   return (
     <section
       id="sobre"
-      className="py-24 sm:py-32 bg-white border-t border-[#E7DFD6] print:hidden"
+      className="py-20 sm:py-28 bg-[#FBF7F2] border-t border-[#E7DFD6] print:hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -36,7 +39,7 @@ export default function About() {
           <span className="inline-block text-xs font-bold text-[#881337] uppercase tracking-wider px-3 py-1 rounded-full border border-[#E7DFD6] bg-transparent">
             01 — Sobre
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold font-display text-[#1C1917] mt-3 tracking-tight">
+          <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold font-display text-[#1C1917] mt-3 tracking-tight leading-tight">
             Perfil Profissional e Trajetória
           </h2>
           <p className="text-base text-[#57534E] mt-2">
@@ -52,7 +55,7 @@ export default function About() {
               Minha missão é simplificar rotinas administrativas e acolher clientes com excelência e organização.
             </h3>
             
-            <div className="text-base sm:text-lg text-[#57534E] leading-[1.7] max-w-[65ch] space-y-5">
+            <div className="text-[17px] text-[#57534E] leading-[1.7] max-w-[65ch] space-y-5">
               <p>
                 Atuo em múltiplos pilares que exigem agilidade, disciplina e relacionamento interpessoal de alto nível. Na multinacional <strong className="text-[#1C1917] font-semibold">Solistica</strong>, adquiri vivência direta no ambiente corporativo, gerenciando atendimento telefônico via central, recepção de visitantes, cadastro rigoroso em CRM, emissão e conferência de Notas Fiscais (NF-e/Danfe) e suporte a rotinas financeiras.
               </p>
@@ -64,11 +67,11 @@ export default function About() {
               </p>
             </div>
 
-            {/* City Card (matching style, without invented percentage card) */}
+            {/* City Card */}
             <div className="pt-2">
-              <div className="bg-white rounded-[12px] p-5 border border-[#E7DFD6] transition-all duration-150 hover:-translate-y-1 hover:shadow-[4px_4px_0_#881337] motion-reduce:transform-none motion-reduce:shadow-none inline-block min-w-[240px]">
+              <div className="bg-white rounded-[12px] p-5 border border-[#E7DFD6] transition-all duration-150 hover:-translate-y-1 hover:border-[#1C1917] hover:shadow-[4px_4px_0_#1C1917] motion-reduce:transform-none motion-reduce:shadow-none inline-block min-w-[240px]">
                 <span className="text-xl sm:text-2xl font-bold text-[#881337] font-display block">
-                  Fortaleza e Região
+                  {personal.city}
                 </span>
                 <p className="text-sm text-[#57534E] font-medium mt-1">
                   Ceará, Brasil
@@ -77,12 +80,12 @@ export default function About() {
             </div>
           </div>
 
-          {/* Right Block (Key values cards grid with "01", "02", "03", "04") */}
+          {/* Right Block (Key values cards grid) */}
           <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
             {values.map((item) => (
               <div
                 key={item.num}
-                className="bg-white p-6 rounded-[12px] border border-[#E7DFD6] transition-all duration-150 hover:-translate-y-1 hover:shadow-[4px_4px_0_#881337] motion-reduce:transform-none motion-reduce:shadow-none flex flex-col"
+                className="bg-white p-6 rounded-[12px] border border-[#E7DFD6] transition-all duration-150 hover:-translate-y-1 hover:border-[#1C1917] hover:shadow-[4px_4px_0_#1C1917] motion-reduce:transform-none motion-reduce:shadow-none flex flex-col"
               >
                 <span className="font-display font-extrabold text-2xl text-[#881337] mb-3 block">
                   {item.num}

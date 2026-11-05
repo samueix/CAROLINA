@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { PERSONAL_INFO } from '../data';
+import { useContent } from '../useContent';
 import { FileText, Menu, X } from 'lucide-react';
 
 interface HeaderProps {
   onOpenResume: () => void;
-  onOpenAdmin: () => void;
 }
 
-export default function Header({ onOpenResume, onOpenAdmin }: HeaderProps) {
+export default function Header({ onOpenResume }: HeaderProps) {
+  const { personal } = useContent();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const clickTimestampsRef = useRef<number[]>([]);
 
   const navItems = [
     { label: 'Início', href: '#inicio' },
@@ -29,51 +30,58 @@ export default function Header({ onOpenResume, onOpenAdmin }: HeaderProps) {
     }
   };
 
+  // Gatilho invisível: 5 toques/cliques rápidos (menos de 3 segundos) no monograma CF
+  const handleMonogramClick = () => {
+    const now = Date.now();
+    const timestamps = clickTimestampsRef.current.filter((t) => now - t < 3000);
+    timestamps.push(now);
+    clickTimestampsRef.current = timestamps;
+
+    if (timestamps.length >= 5) {
+      clickTimestampsRef.current = [];
+      window.dispatchEvent(new CustomEvent('open_admin_secret'));
+    }
+  };
+
   return (
     <header
       id="header"
       className="sticky top-0 z-40 bg-[#FBF7F2] border-b border-[#E7DFD6] py-3.5 print:hidden"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        {/* Logo / Nome */}
+        {/* Monograma CF (puramente visual, sem cursor de ponteiro) + Nome */}
         <div className="flex items-center gap-3">
-          <button 
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onOpenAdmin();
-            }}
-            className="w-9 h-9 rounded-[12px] bg-[#881337] flex items-center justify-center text-white font-bold text-sm tracking-wide cursor-pointer hover:opacity-90 transition border border-[#881337]"
-            title="Painel Administrativo (Área Restrita)"
-            aria-label="Painel Administrativo"
+          <div 
+            onClick={handleMonogramClick}
+            className="w-9 h-9 rounded-[12px] bg-[#881337] flex items-center justify-center text-white font-bold text-sm tracking-wide select-none"
+            aria-hidden="true"
           >
             CF
-          </button>
+          </div>
           <a 
             href="#inicio" 
             onClick={(e) => handleNavClick(e, '#inicio')}
             className="font-display font-bold text-[#1C1917] text-lg tracking-tight hover:text-[#881337] transition cursor-pointer"
           >
-            {PERSONAL_INFO.displayName}
+            {personal.displayName}
           </a>
         </div>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
+        {/* Desktop Navigation - links de 15px e mais espaço entre eles */}
+        <nav className="hidden md:flex items-center gap-8">
           {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
               onClick={(e) => handleNavClick(e, item.href)}
-              className="text-sm font-medium text-[#1C1917] py-1 border-b-2 border-transparent hover:border-[#881337] hover:text-[#881337] transition-all duration-150"
+              className="text-[15px] font-medium text-[#1C1917] py-1 border-b-2 border-transparent hover:border-[#881337] hover:text-[#881337] transition-all duration-150"
             >
               {item.label}
             </a>
           ))}
         </nav>
 
-        {/* Call To Actions */}
+        {/* Call To Action - Visualizar Currículo */}
         <div className="hidden md:flex items-center gap-3">
           <button
             type="button"
@@ -85,7 +93,7 @@ export default function Header({ onOpenResume, onOpenAdmin }: HeaderProps) {
           </button>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Menu Buttons */}
         <div className="flex md:hidden items-center gap-2">
           <button
             type="button"
